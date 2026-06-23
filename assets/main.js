@@ -92,55 +92,99 @@
     window.DK_PEOPLE.forEach(function (p) { grid.appendChild(renderPerson(p)); });
   }
 
-  /* ---------- Hero: Denmark land-use mosaic ---------- */
+  /* ---------- Hero: Denmark land-use mosaic (canvas) ----------
+     Rendered on a <canvas> rather than ~1600 clipped SVG rects, which
+     keeps Safari fast: parallax just moves one bitmap and cell changes
+     are cheap redraws instead of re-rasterising a clipped SVG.        */
   var heroArt = document.querySelector(".hero-art");
-  var grid = document.querySelector(".dk-cells");
+  var canvas = document.querySelector(".denmark-canvas");
   var hero = document.querySelector(".hero");
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  if (grid) {
-    var SVGNS = "http://www.w3.org/2000/svg";
-    var STEP = 5, SIZE = 4.3, N = 40;
-    // landscape tones, ordered so neighbours are perceptually close
-    var TONES = ["#1d4736", "#2f6b50", "#4a7d54", "#6e9a90", "#3f7e96", "#c9bfa6"];
+  if (canvas && canvas.getContext) {
+    var ctx = canvas.getContext("2d");
+    var STEP = 5, SIZE = 4.3, N = 40, OFF = (STEP - SIZE) / 2;
+    var TONES = [[29,71,54],[47,107,80],[74,125,84],[110,154,144],[63,126,150],[201,191,166]];
 
     function baseTone(gx, gy) {
-      // smooth value-noise -> organic land-use patches
       var v = Math.sin(gx * 0.45 + 0.3) + Math.sin(gy * 0.5 - 0.7)
             + Math.sin((gx + gy) * 0.22) + Math.sin((gx - gy) * 0.35);
       v = (v + 4) / 8 + (Math.random() - 0.5) * 0.12;
       return Math.min(TONES.length - 1, Math.max(0, Math.floor(v * TONES.length)));
     }
 
+    // Denmark outline -> one Path2D in 0..200 space
+    var dkPath = new Path2D();
+    var M = new DOMMatrix([0.01953125, 0, 0, -0.01953125, 0, 200]);
+    document.querySelectorAll("#dkClip path").forEach(function (p) {
+      dkPath.addPath(new Path2D(p.getAttribute("d")), M);
+    });
+
     var cells = [];
     for (var gy = 0; gy < N; gy++) {
       for (var gx = 0; gx < N; gx++) {
-        var rect = document.createElementNS(SVGNS, "rect");
-        var off = (STEP - SIZE) / 2;
-        rect.setAttribute("x", (gx * STEP + off).toFixed(2));
-        rect.setAttribute("y", (gy * STEP + off).toFixed(2));
-        rect.setAttribute("width", SIZE);
-        rect.setAttribute("height", SIZE);
-        rect.setAttribute("rx", "0.6");
         var bi = baseTone(gx, gy);
-        rect.setAttribute("fill", TONES[bi]);
-        rect.dataset.base = bi;
-        grid.appendChild(rect);
-        cells.push(rect);
+        cells.push({ x: gx * STEP + OFF, y: gy * STEP + OFF, base: bi,
+                     cur: TONES[bi].slice(), tgt: TONES[bi] });
       }
     }
 
-    // Reclassify a few cells around their base tone: land use shifting,
-    // a visual stand-in for prediction under uncertainty.
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    function resize() {
+      var r = canvas.getBoundingClientRect();
+      if (!r.width || !r.height) return false;
+      var w = Math.round(r.width * dpr), h = Math.round(r.height * dpr);
+      if (w !== canvas.width || h !== canvas.height) { canvas.width = w; canvas.height = h; }
+      return true;
+    }
+    function draw() {
+      var w = canvas.width, h = canvas.height;
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.clearRect(0, 0, w, h);
+      var s = Math.min(w, h) / 200;
+      ctx.setTransform(s, 0, 0, s, (w - 200 * s) / 2, (h - 200 * s) / 2);
+      ctx.save();
+      ctx.clip(dkPath);
+      for (var i = 0; i < cells.length; i++) {
+        var c = cells[i];
+        ctx.fillStyle = "rgb(" + (c.cur[0] | 0) + "," + (c.cur[1] | 0) + "," + (c.cur[2] | 0) + ")";
+        ctx.fillRect(c.x, c.y, SIZE, SIZE);
+      }
+      ctx.restore();
+    }
+
+    var animating = false;
+    function frame() {
+      var active = false;
+      for (var i = 0; i < cells.length; i++) {
+        var c = cells[i], a = c.cur, t = c.tgt;
+        var d0 = t[0] - a[0], d1 = t[1] - a[1], d2 = t[2] - a[2];
+        if (Math.abs(d0) > 0.6 || Math.abs(d1) > 0.6 || Math.abs(d2) > 0.6) {
+          a[0] += d0 * 0.09; a[1] += d1 * 0.09; a[2] += d2 * 0.09; active = true;
+        } else { a[0] = t[0]; a[1] = t[1]; a[2] = t[2]; }
+      }
+      draw();
+      if (active) requestAnimationFrame(frame); else animating = false;
+    }
+    function kick() { if (!animating) { animating = true; requestAnimationFrame(frame); } }
+
+    if (resize()) draw();
+    if (typeof ResizeObserver !== "undefined") {
+      new ResizeObserver(function () { if (resize()) draw(); }).observe(canvas);
+    } else {
+      window.addEventListener("resize", function () { if (resize()) draw(); });
+    }
+
+    // Reclassify a few cells around their base tone: land use shifting.
     if (!reduce) {
       setInterval(function () {
         for (var k = 0; k < 6; k++) {
           var c = cells[(Math.random() * cells.length) | 0];
-          var base = +c.dataset.base;
-          var idx = Math.max(0, Math.min(TONES.length - 1, base + ((Math.random() * 3) | 0) - 1));
-          c.setAttribute("fill", TONES[idx]);
+          var idx = Math.max(0, Math.min(TONES.length - 1, c.base + ((Math.random() * 3) | 0) - 1));
+          c.tgt = TONES[idx];
         }
-      }, 620);
+        kick();
+      }, 700);
     }
   }
 
