@@ -123,21 +123,41 @@ h1, h2, h3 {
 .btn-ghost { border-color: var(--line); color: var(--ink); }
 .btn-ghost:hover { border-color: var(--green); color: var(--green-deep); }
 
-/* Hero backdrop: Denmark land-use mosaic */
+/* Hero backdrop: Denmark land-use mosaic + projected forecast fan */
 .landscape { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
-.denmark {
+.hero-art {
   position: absolute;
-  right: clamp(-60px, -2vw, 20px); top: 50%;
-  width: clamp(440px, 46vw, 760px); aspect-ratio: 1;
+  right: clamp(-50px, -1vw, 30px); top: 50%;
+  width: clamp(500px, 52vw, 880px); aspect-ratio: 1.42;
   transform: translate(var(--dk-x, 0px), calc(-50% + var(--dk-y, 0px)));
   transition: transform 0.6s cubic-bezier(.2,.7,.2,1);
+}
+/* Denmark sits in the left ~64% of the art zone */
+.denmark {
+  position: absolute; left: 0; top: 0; height: 100%; width: 64%;
   -webkit-mask: url(img/denmark.svg) center/contain no-repeat;
   mask: url(img/denmark.svg) center/contain no-repeat;
-  opacity: 0.9;
+  opacity: 0.92;
 }
 .denmark-grid { width: 100%; height: 100%; display: block; }
-.denmark-grid rect {
-  transition: fill 1.6s ease, opacity 1.6s ease;
+.denmark-grid rect { transition: fill 1.6s ease; }
+
+/* Forecast fan, projected east from the country */
+.dk-fan {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  fill: none; stroke-width: 2; stroke-linecap: round;
+}
+.dk-fan path { transform-origin: 58% 51%; animation: spread 9s ease-in-out infinite alternate; }
+.dk-fan path:nth-child(1) { stroke: var(--sea);       animation-delay: -0.3s; }
+.dk-fan path:nth-child(2) { stroke: #4f93a0;          animation-delay: -1.5s; }
+.dk-fan path:nth-child(3) { stroke: var(--cyan);      animation-delay: -2.7s; }
+.dk-fan path:nth-child(4) { stroke: var(--green);     animation-delay: -3.9s; }
+.dk-fan path:nth-child(5) { stroke: #4a7d54;          animation-delay: -5.1s; }
+.dk-fan path:nth-child(6) { stroke: var(--green-deep); animation-delay: -6.3s; }
+.dk-fan path:nth-child(7) { stroke: var(--sand);      animation-delay: -7.5s; }
+@keyframes spread {
+  from { transform: scaleY(0.9);  opacity: 0.78; }
+  to   { transform: scaleY(1.08); opacity: 1; }
 }
 
 /* ===================== Sections ===================== */
@@ -284,6 +304,7 @@ h1, h2, h3 {
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; transition: none; }
   .denmark-grid rect { transition: none; }
+  .dk-fan path { animation: none; }
   html { scroll-behavior: auto; }
 }
 

@@ -93,7 +93,7 @@
   }
 
   /* ---------- Hero: Denmark land-use mosaic ---------- */
-  var denmark = document.querySelector(".denmark");
+  var heroArt = document.querySelector(".hero-art");
   var grid = document.querySelector(".denmark-grid");
   var hero = document.querySelector(".hero");
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -145,13 +145,13 @@
   }
 
   /* ---------- Hero: pointer + scroll parallax ---------- */
-  if (denmark && hero && !reduce) {
+  if (heroArt && hero && !reduce) {
     var tx = 0, ty = 0, cx = 0, cy = 0, raf = null;
     function tick() {
       cx += (tx - cx) * 0.08;
       cy += (ty - cy) * 0.08;
-      denmark.style.setProperty("--dk-x", cx.toFixed(2) + "px");
-      denmark.style.setProperty("--dk-y", cy.toFixed(2) + "px");
+      heroArt.style.setProperty("--dk-x", cx.toFixed(2) + "px");
+      heroArt.style.setProperty("--dk-y", cy.toFixed(2) + "px");
       if (Math.abs(tx - cx) > 0.1 || Math.abs(ty - cy) > 0.1) {
         raf = requestAnimationFrame(tick);
       } else { raf = null; }
