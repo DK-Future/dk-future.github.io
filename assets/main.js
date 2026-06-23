@@ -92,17 +92,66 @@
     window.DK_PEOPLE.forEach(function (p) { grid.appendChild(renderPerson(p)); });
   }
 
-  /* ---------- Hero fan: pointer + scroll parallax ---------- */
-  var fan = document.querySelector(".fan");
+  /* ---------- Hero: Denmark land-use mosaic ---------- */
+  var denmark = document.querySelector(".denmark");
+  var grid = document.querySelector(".denmark-grid");
   var hero = document.querySelector(".hero");
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (fan && hero && !reduce) {
+
+  if (grid) {
+    var SVGNS = "http://www.w3.org/2000/svg";
+    var STEP = 5, SIZE = 4.3, N = 40;
+    // landscape tones, ordered so neighbours are perceptually close
+    var TONES = ["#1d4736", "#2f6b50", "#4a7d54", "#6e9a90", "#3f7e96", "#c9bfa6"];
+
+    function baseTone(gx, gy) {
+      // smooth value-noise -> organic land-use patches
+      var v = Math.sin(gx * 0.45 + 0.3) + Math.sin(gy * 0.5 - 0.7)
+            + Math.sin((gx + gy) * 0.22) + Math.sin((gx - gy) * 0.35);
+      v = (v + 4) / 8 + (Math.random() - 0.5) * 0.12;
+      return Math.min(TONES.length - 1, Math.max(0, Math.floor(v * TONES.length)));
+    }
+
+    var cells = [];
+    for (var gy = 0; gy < N; gy++) {
+      for (var gx = 0; gx < N; gx++) {
+        var rect = document.createElementNS(SVGNS, "rect");
+        var off = (STEP - SIZE) / 2;
+        rect.setAttribute("x", (gx * STEP + off).toFixed(2));
+        rect.setAttribute("y", (gy * STEP + off).toFixed(2));
+        rect.setAttribute("width", SIZE);
+        rect.setAttribute("height", SIZE);
+        rect.setAttribute("rx", "0.6");
+        var bi = baseTone(gx, gy);
+        rect.setAttribute("fill", TONES[bi]);
+        rect.dataset.base = bi;
+        grid.appendChild(rect);
+        cells.push(rect);
+      }
+    }
+
+    // Reclassify a few cells around their base tone: land use shifting,
+    // a visual stand-in for prediction under uncertainty.
+    if (!reduce) {
+      setInterval(function () {
+        for (var k = 0; k < 6; k++) {
+          var c = cells[(Math.random() * cells.length) | 0];
+          var base = +c.dataset.base;
+          var idx = Math.max(0, Math.min(TONES.length - 1, base + ((Math.random() * 3) | 0) - 1));
+          c.setAttribute("fill", TONES[idx]);
+        }
+      }, 620);
+    }
+  }
+
+  /* ---------- Hero: pointer + scroll parallax ---------- */
+  if (denmark && hero && !reduce) {
     var tx = 0, ty = 0, cx = 0, cy = 0, raf = null;
     function tick() {
       cx += (tx - cx) * 0.08;
       cy += (ty - cy) * 0.08;
-      fan.style.setProperty("--fan-x", cx.toFixed(2) + "px");
-      fan.style.setProperty("--fan-y", cy.toFixed(2) + "px");
+      denmark.style.setProperty("--dk-x", cx.toFixed(2) + "px");
+      denmark.style.setProperty("--dk-y", cy.toFixed(2) + "px");
       if (Math.abs(tx - cx) > 0.1 || Math.abs(ty - cy) > 0.1) {
         raf = requestAnimationFrame(tick);
       } else { raf = null; }
@@ -111,14 +160,13 @@
 
     hero.addEventListener("pointermove", function (e) {
       var r = hero.getBoundingClientRect();
-      tx = ((e.clientX - r.left) / r.width - 0.5) * 46;   // ±23px
-      ty = ((e.clientY - r.top) / r.height - 0.5) * 30;   // ±15px
+      tx = ((e.clientX - r.left) / r.width - 0.5) * 34;
+      ty = ((e.clientY - r.top) / r.height - 0.5) * 24;
       nudge();
     });
     hero.addEventListener("pointerleave", function () { tx = 0; ty = 0; nudge(); });
     window.addEventListener("scroll", function () {
-      // gentle drift as the hero scrolls away
-      if (window.scrollY < window.innerHeight) { ty = window.scrollY * 0.04; nudge(); }
+      if (window.scrollY < window.innerHeight) { ty = window.scrollY * 0.03; nudge(); }
     }, { passive: true });
   }
 
