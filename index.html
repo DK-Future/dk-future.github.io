@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DK-Future — Predicting Denmark's Future Landscape</title>
+  <meta name="description" content="DK-Future: Probabilistic geospatial machine learning for predicting future Danish land use under compound climate impact." />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="DK-Future" />
+  <meta property="og:description" content="Probabilistic GeoAI for predicting Denmark's future landscape under climate change." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://dkfuture.dk" />
+
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+  <!-- ===================== Header ===================== -->
+  <header class="site-header">
+    <a class="brand" href="#top">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-text">DK&#8209;Future</span>
+    </a>
+    <nav class="site-nav">
+      <a href="#project">Project</a>
+      <a href="#research">Research</a>
+      <a href="#team">Team</a>
+      <a href="#events">Events</a>
+      <a href="#contact">Contact</a>
+      <!-- Coming later: <a href="publications.html">Publications</a> -->
+    </nav>
+  </header>
+
+  <!-- ===================== Hero ===================== -->
+  <section class="hero" id="top">
+    <!-- Probabilistic forecast fan: curves converge left, diverge right -->
+    <div class="landscape" aria-hidden="true">
+      <svg class="fan" viewBox="0 0 1440 600" preserveAspectRatio="none">
+        <path d="M40,300 C500,296 900,160 1480,132" />
+        <path d="M40,300 C500,298 900,206 1480,192" />
+        <path d="M40,301 C520,300 900,256 1480,252" />
+        <path d="M40,302 C500,302 900,304 1480,308" />
+        <path d="M40,303 C520,306 900,352 1480,366" />
+        <path d="M40,304 C500,308 900,402 1480,430" />
+        <path d="M40,305 C520,312 900,450 1480,494" />
+      </svg>
+    </div>
+
+    <div class="hero-content">
+      <p class="eyebrow">Villum Synergy · Aalborg University · 2026&ndash;2028</p>
+      <h1>Forecasting Denmark's <em>future landscape</em>.</h1>
+      <p class="lede">
+        DK&#8209;Future builds probabilistic geospatial machine&#8209;learning models that
+        predict how Denmark's land use will shift under a changing climate &mdash; and put a
+        calibrated measure of uncertainty on every prediction.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#project">About the project</a>
+        <a class="btn btn-ghost" href="#team">Meet the team</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== Project ===================== -->
+  <section class="section" id="project">
+    <div class="section-head reveal">
+      <span class="section-num">01</span>
+      <h2>The project</h2>
+    </div>
+    <div class="prose reveal">
+      <p>
+        Denmark is acutely exposed to a changing climate. A long coastline, low&#8209;lying
+        terrain, and intensively managed land leave it vulnerable to flooding, drought, and
+        coastal degradation &mdash; yet precise, uncertainty&#8209;aware forecasts of how its
+        land use will respond are still missing. Anticipating that change is essential for
+        proactive, sustainable planning.
+      </p>
+      <p>
+        <strong>DK&#8209;Future</strong> develops a new class of probabilistic geographical
+        machine&#8209;learning models &mdash; <em>probabilistic GeoML</em> &mdash; that integrate
+        spatial structure with Bayesian deep learning. Combining historical earth observation,
+        climate projections, socio&#8209;economic signals, and legislative frameworks, the models
+        forecast Danish land use at horizons of <strong>2030, 2050, and 2100</strong>. Crucially,
+        they don't produce a single forecast: they output <strong>probability distributions over
+        alternative land&#8209;use scenarios</strong>, surfacing the low&#8209;probability but
+        high&#8209;impact shifts that decision&#8209;makers need to plan for.
+      </p>
+      <p>
+        The work is committed to open&#8209;science standards, so that authorities, researchers,
+        and the public can build on its data and models.
+      </p>
+    </div>
+
+    <div class="facts reveal">
+      <div class="fact">
+        <span class="fact-label">Programme</span>
+        <span class="fact-value">Villum Synergy</span>
+      </div>
+      <div class="fact">
+        <span class="fact-label">Funding</span>
+        <span class="fact-value">DKK 4.48M</span>
+      </div>
+      <div class="fact">
+        <span class="fact-label">Duration</span>
+        <span class="fact-value">2026&ndash;2028</span>
+      </div>
+      <div class="fact">
+        <span class="fact-label">Host</span>
+        <span class="fact-value">Aalborg University</span>
+      </div>
+    </div>
+
+    <a class="funding reveal" href="https://villumfonden.dk/da/projekt/dk-future-probabilistic-geospatial-machine-learning-predicting-future-danish-land-use-under" target="_blank" rel="noopener">
+      <img class="funding-logo" src="assets/img/villum-logo.png" alt="Villum Fonden" loading="lazy" />
+      <span class="funding-text">
+        <strong>Supported by Villum Fonden</strong>
+        DK&#8209;Future is funded through the <em>Villum Synergy</em> programme,
+        which backs interdisciplinary data&#8209;science research &mdash; here, a synergy of
+        probabilistic machine learning and geographic science.
+      </span>
+    </a>
+  </section>
+
+  <!-- ===================== Research ===================== -->
+  <section class="section section-alt" id="research">
+    <div class="section-head reveal">
+      <span class="section-num">02</span>
+      <h2>Research directions</h2>
+    </div>
+    <div class="cards">
+      <article class="rcard reveal" style="--tone: var(--sea)">
+        <div class="rcard-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="5" cy="6" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="12" cy="18" r="2"/>
+            <path d="M7 6h10M6.6 7.4 10.4 16.6M17.4 7.4 13.6 16.6"/>
+          </svg>
+        </div>
+        <div class="rcard-text">
+          <span class="rcard-kicker">Methodology</span>
+          <h3>Probabilistic GeoML</h3>
+          <p>
+            Bring spatial structure &mdash; proximity and autocorrelation &mdash; into Bayesian
+            deep&#8209;learning models built for land&#8209;use prediction.
+          </p>
+        </div>
+      </article>
+
+      <article class="rcard reveal" style="--tone: var(--cyan)">
+        <div class="rcard-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 18h18"/>
+            <path d="M3 18c5 0 5.5-12 9-12s4 12 9 12"/>
+            <path d="M12 6v12" stroke-dasharray="2.2 2.4"/>
+          </svg>
+        </div>
+        <div class="rcard-text">
+          <span class="rcard-kicker">Uncertainty</span>
+          <h3>Uncertainty quantification</h3>
+          <p>
+            Move beyond point forecasts to full predictive distributions &mdash; estimating the
+            probability of rare, high&#8209;consequence land&#8209;use shifts.
+          </p>
+        </div>
+      </article>
+
+      <article class="rcard reveal" style="--tone: var(--green)">
+        <div class="rcard-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 7c3-2.4 5-2.4 8 0s5 2.4 8 0"/>
+            <path d="M3 12c3-2.4 5-2.4 8 0s5 2.4 8 0"/>
+            <path d="M3 17c3-2.4 5-2.4 8 0s5 2.4 8 0"/>
+          </svg>
+        </div>
+        <div class="rcard-text">
+          <span class="rcard-kicker">Climate</span>
+          <h3>Climate &amp; land-use dynamics</h3>
+          <p>
+            Model how compound climate impacts &mdash; flooding, drought, coastal change &mdash;
+            reshape the landscape across multiple scenarios.
+          </p>
+        </div>
+      </article>
+
+      <article class="rcard reveal" style="--tone: var(--green-deep)">
+        <div class="rcard-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="6" cy="12" r="2.4"/><circle cx="18" cy="6" r="2.4"/><circle cx="18" cy="18" r="2.4"/>
+            <path d="M8.2 10.9 15.8 7.1M8.2 13.1 15.8 16.9"/>
+          </svg>
+        </div>
+        <div class="rcard-text">
+          <span class="rcard-kicker">Open science</span>
+          <h3>Open tools for planning</h3>
+          <p>
+            Release reproducible, open&#8209;source models and datasets that support
+            climate&#8209;resilience planning for Denmark's land and coasts.
+          </p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===================== Team ===================== -->
+  <section class="section" id="team">
+    <div class="section-head reveal">
+      <span class="section-num">03</span>
+      <h2>Team</h2>
+    </div>
+    <p class="prose reveal">
+      DK&#8209;Future brings together computer scientists and geographers at Aalborg University,
+      bridging probabilistic machine learning with geographic science.
+    </p>
+    <div class="team-grid reveal" id="team-grid"><!-- populated from assets/people.js --></div>
+    <p class="partners reveal">
+      <span>Department of Computer Science</span>
+      <span class="dot">·</span>
+      <span>Department of Sustainability and Planning</span>
+    </p>
+  </section>
+
+  <!-- ===================== Events ===================== -->
+  <section class="section section-alt" id="events">
+    <div class="section-head reveal">
+      <span class="section-num">04</span>
+      <h2>Events</h2>
+    </div>
+    <div class="event reveal">
+      <div class="event-date" aria-hidden="true">
+        <span class="event-day">25</span>
+        <span class="event-month">Aug</span>
+        <span class="event-year">2026</span>
+      </div>
+      <div class="event-body">
+        <span class="event-status">Upcoming</span>
+        <h3>Danish Land Use Futures under Climate Change</h3>
+        <p class="event-meta">Workshop · Aalborg University, Copenhagen</p>
+        <p>
+          A one&#8209;day workshop bringing together researchers and practitioners working on
+          land use, climate scenarios, and geospatial modelling in Denmark. The full programme
+          and speakers will be announced here closer to the date.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== Contact ===================== -->
+  <section class="section" id="contact">
+    <div class="section-head reveal">
+      <span class="section-num">05</span>
+      <h2>Contact</h2>
+    </div>
+    <div class="prose reveal">
+      <p>
+        For questions about the project or collaboration, reach out to the project lead,
+        <a href="mailto:arma@cs.aau.dk">Andrés R. Masegosa</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- ===================== Footer ===================== -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <a class="footer-logo-link" href="https://www.aau.dk/" target="_blank" rel="noopener" aria-label="Aalborg University">
+        <img class="footer-logo" src="assets/img/aau-logo.png" alt="Aalborg University" loading="lazy" />
+      </a>
+      <span>Funded by <a href="https://villumfonden.dk/da/projekt/dk-future-probabilistic-geospatial-machine-learning-predicting-future-danish-land-use-under" target="_blank" rel="noopener">Villum Fonden</a> · Villum Synergy</span>
+    </div>
+  </footer>
+
+  <script src="assets/people.js"></script>
+  <script src="assets/main.js"></script>
+</body>
+</html>
