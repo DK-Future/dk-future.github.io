@@ -94,7 +94,7 @@
 
   /* ---------- Hero: Denmark land-use mosaic ---------- */
   var heroArt = document.querySelector(".hero-art");
-  var grid = document.querySelector(".denmark-grid");
+  var grid = document.querySelector(".dk-cells");
   var hero = document.querySelector(".hero");
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
