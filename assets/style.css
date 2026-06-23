@@ -127,12 +127,12 @@ h1, h2, h3 {
 .landscape { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
 .fan {
   position: absolute;
-  left: clamp(150px, 22%, 540px); right: -4%; top: 50%; height: 104%;
+  left: clamp(300px, 34%, 600px); right: -4%; top: 50%; height: 104%;
   transform: translate(var(--fan-x, 0px), calc(-50% + var(--fan-y, 0px)));
   transition: transform 0.5s cubic-bezier(.2,.7,.2,1);
   fill: none; stroke-width: 1.3; stroke-linecap: round;
-  mask-image: linear-gradient(95deg, transparent 2%, #000 38%, #000 90%, transparent 100%);
-  -webkit-mask-image: linear-gradient(95deg, transparent 2%, #000 38%, #000 90%, transparent 100%);
+  mask-image: linear-gradient(95deg, transparent 0%, #000 46%, #000 90%, transparent 100%);
+  -webkit-mask-image: linear-gradient(95deg, transparent 0%, #000 46%, #000 90%, transparent 100%);
 }
 .fan path { transform-origin: left center; animation: spread 9s ease-in-out infinite alternate; }
 .fan path:nth-child(1) { stroke: var(--sea);        animation-delay: -0.2s; }
@@ -290,11 +290,18 @@ h1, h2, h3 {
 
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; transition: none; }
-  .hills { animation: none; }
+  .fan path { animation: none; }
   html { scroll-behavior: auto; }
+}
+
+/* The forecast fan is a desktop flourish; on narrow screens it would
+   cross the body text, so we drop it and tighten the hero instead. */
+@media (max-width: 900px) {
+  .landscape { display: none; }
+  .hero { min-height: auto; padding-block: 3rem 3.5rem; }
 }
 
 @media (max-width: 560px) {
   .brand-text { display: none; }
-  .footer-inner { flex-direction: column; }
+  .footer-inner { flex-direction: column; align-items: flex-start; }
 }
