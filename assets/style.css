@@ -90,13 +90,17 @@ h1, h2, h3 {
 /* ===================== Hero ===================== */
 .hero {
   position: relative;
-  min-height: min(82vh, 720px);
+  overflow: hidden;
   display: flex;
   align-items: center;
-  padding: 4rem var(--pad) 5rem;
-  overflow: hidden;
+  min-height: min(76vh, 660px);
+  padding-block: clamp(3rem, 7vh, 5rem);
 }
-.hero-content { position: relative; z-index: 2; max-width: 760px; }
+.hero-inner {
+  width: 100%; max-width: var(--max);
+  margin: 0 auto; padding-inline: var(--pad);
+}
+.hero-content { position: relative; z-index: 2; max-width: 560px; }
 .eyebrow {
   text-transform: uppercase; letter-spacing: 0.22em; font-size: 0.7rem;
   font-weight: 700; color: var(--green); margin: 0 0 1.4rem;
@@ -127,8 +131,8 @@ h1, h2, h3 {
 .landscape { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
 .hero-art {
   position: absolute;
-  right: clamp(-50px, -1vw, 30px); top: 50%;
-  width: clamp(500px, 52vw, 880px); aspect-ratio: 1.42;
+  right: -1%; top: 50%;
+  width: clamp(480px, 40vw, 980px); aspect-ratio: 1.42;
   transform: translate(var(--dk-x, 0px), calc(-50% + var(--dk-y, 0px)));
   transition: transform 0.6s cubic-bezier(.2,.7,.2,1);
 }
@@ -308,9 +312,9 @@ h1, h2, h3 {
 
 /* The Denmark mosaic is a desktop flourish; on narrow screens it would
    sit behind the body text, so we drop it and tighten the hero instead. */
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
   .landscape { display: none; }
-  .hero { min-height: auto; padding-block: 3rem 3.5rem; }
+  .hero { min-height: auto; }
 }
 
 @media (max-width: 560px) {
