@@ -86,6 +86,8 @@ h1, h2, h3 {
 }
 .site-nav a:hover { color: var(--ink); }
 .site-nav a:hover::after { width: 100%; }
+.site-nav a.is-current { color: var(--ink); }
+.site-nav a.is-current::after { width: 100%; background: var(--green); }
 
 /* ===================== Hero ===================== */
 .hero {
@@ -288,6 +290,24 @@ h1, h2, h3 {
 .event-meta { margin: 0 0 0.7rem; font-size: 0.85rem; color: var(--green); text-transform: uppercase; letter-spacing: 0.08em; }
 .event-body p { margin: 0; color: var(--ink-soft); font-size: 0.96rem; max-width: 52ch; }
 
+/* The event card doubles as a link to the workshop page. */
+a.event {
+  text-decoration: none; color: inherit;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+a.event:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--green) 40%, var(--line));
+  box-shadow: 0 12px 30px -22px var(--green-deep);
+}
+a.event:hover .event-body h3 { color: var(--green-deep); }
+.event-more {
+  display: inline-flex; align-items: center; gap: 0.35rem; margin-top: 0.9rem;
+  font-size: 0.84rem; font-weight: 500; color: var(--green-deep);
+}
+.event-more .arrow { transition: transform 0.2s ease; }
+a.event:hover .event-more .arrow { transform: translateX(3px); }
+
 @media (max-width: 480px) {
   .event { flex-direction: column; gap: 1rem; }
 }
@@ -320,4 +340,245 @@ h1, h2, h3 {
 @media (max-width: 560px) {
   .brand-text { display: none; }
   .footer-inner { flex-direction: column; align-items: flex-start; }
+}
+
+/* ============================================================
+   Workshop pages (workshop-<yyyy>-<mm>.html)
+   ============================================================ */
+
+/* The full-bleed bands here hold a mix of wide and narrow blocks. Indent the
+   band itself to where a plain .section's text starts, then let every child
+   sit flush left with its own width — so prose (64ch), the agenda (760px) and
+   the section headings all share one left edge down the page. */
+.page-workshop .section-alt {
+  padding-inline: max(var(--pad), calc((100% - var(--max)) / 2 + var(--pad)));
+}
+.page-workshop .section-alt > * { margin-inline: 0; }
+
+/* --- Hero --- */
+.wshero {
+  position: relative; overflow: hidden;
+  padding-block: clamp(2.5rem, 7vw, 4.5rem) clamp(3rem, 7vw, 4.5rem);
+  border-bottom: 1px solid var(--line);
+  background:
+    radial-gradient(90ch 60ch at 82% 18%, color-mix(in srgb, var(--cyan) 26%, transparent), transparent 62%),
+    radial-gradient(70ch 50ch at 8% 96%, color-mix(in srgb, var(--sand) 30%, transparent), transparent 60%),
+    linear-gradient(175deg, color-mix(in srgb, var(--green) 5%, var(--bg-alt)), var(--bg-alt));
+}
+.wshero-art {
+  position: absolute; right: 0; top: 50%; transform: translateY(-50%);
+  width: min(620px, 50%); aspect-ratio: 0.92;
+  opacity: 0.5; pointer-events: none;
+  -webkit-mask-image: linear-gradient(to right, transparent 18%, #000 80%);
+          mask-image: linear-gradient(to right, transparent 18%, #000 80%);
+}
+/* The curves now pivot on their origin at the left edge, not the fan's middle. */
+.wshero-art .dk-fan path { transform-origin: 0% 48%; }
+
+/* Date / venue / price, inline under the lede */
+.wsmeta {
+  display: flex; flex-wrap: wrap; gap: 0.6rem 2.2rem;
+  list-style: none; margin: 0 0 2rem; padding: 1.1rem 0 0;
+  border-top: 1px solid color-mix(in srgb, var(--green) 18%, transparent);
+  max-width: 54ch;
+}
+.wsmeta li { display: flex; align-items: flex-start; gap: 0.6rem; }
+.wsmeta svg { width: 19px; height: 19px; flex: 0 0 auto; margin-top: 0.15rem; color: var(--green); }
+.wsmeta span { display: flex; flex-direction: column; font-size: 0.8rem; color: var(--ink-soft); line-height: 1.4; }
+.wsmeta strong {
+  font-family: var(--display); font-size: 1.02rem; font-weight: 600;
+  color: var(--ink); letter-spacing: -0.01em;
+}
+.wshero-inner {
+  position: relative; z-index: 2;
+  max-width: var(--max); margin: 0 auto; padding-inline: var(--pad);
+}
+.wshero h1 {
+  font-size: clamp(2rem, 4.8vw, 3.4rem);
+  line-height: 1.08; margin: 0 0 1.3rem; max-width: 18ch;
+}
+.wshero h1 em { font-style: italic; color: var(--green-deep); }
+.wshero .lede { max-width: 54ch; }
+
+.backlink {
+  display: inline-block; margin-bottom: 1.6rem;
+  font-size: 0.8rem; font-weight: 500; letter-spacing: 0.04em;
+  color: var(--ink-soft); text-decoration: none;
+}
+.backlink:hover { color: var(--green-deep); }
+
+.page-workshop .funding { margin-top: 2.8rem; }
+
+/* Host lockup */
+.wshost { display: flex; align-items: center; gap: 0.9rem; margin: 2.4rem 0 0; }
+.wshost-label {
+  font-size: 0.66rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.14em; color: var(--ink-soft);
+}
+.wshost-logo { height: 26px; width: auto; display: block; opacity: 0.85; transition: opacity 0.2s ease; }
+.wshost a:hover .wshost-logo { opacity: 1; }
+
+/* --- Themes --- */
+.topics { margin-top: 2.6rem; }
+.topics-label {
+  display: block; font-size: 0.66rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.14em; color: var(--ink-soft); margin-bottom: 0.9rem;
+}
+.topic-list { display: flex; flex-wrap: wrap; gap: 0.5rem; list-style: none; margin: 0; padding: 0; }
+.topic-list li {
+  font-size: 0.82rem; color: var(--green-deep);
+  padding: 0.32rem 0.85rem; border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--green) 22%, var(--line));
+  background: color-mix(in srgb, var(--cyan) 12%, var(--bg));
+}
+
+/* --- Agenda --- */
+.agenda-note {
+  max-width: 64ch; margin: 0 0 2rem; padding: 0.9rem 1.1rem;
+  font-size: 0.88rem; color: var(--ink-soft); line-height: 1.55;
+  border: 1px solid color-mix(in srgb, var(--sand) 60%, var(--line));
+  border-left: 3px solid var(--sand);
+  border-radius: 0 10px 10px 0;
+  background: color-mix(in srgb, var(--sand) 12%, var(--bg));
+}
+.agenda-note strong { color: var(--ink); }
+
+/* A timeline: times in the left column, a rail of markers, then the session. */
+.agenda { list-style: none; margin: 0; padding: 0; max-width: 760px; }
+.agenda-item {
+  position: relative;
+  display: grid; grid-template-columns: 7rem 1.9rem 1fr;
+  padding-block: 0.95rem;
+}
+.agenda-item::before {          /* rail */
+  content: ""; position: absolute; left: calc(7rem + 0.95rem);
+  top: 0; bottom: 0; width: 1px;
+  background: color-mix(in srgb, var(--green) 22%, var(--line));
+}
+.agenda-item:first-child::before { top: 1.35rem; }
+.agenda-item:last-child::before { bottom: calc(100% - 1.35rem); }
+.agenda-item::after {           /* marker */
+  content: ""; position: absolute; left: calc(7rem + 0.95rem - 4.5px); top: 1.15rem;
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--bg); border: 1.5px solid var(--cyan);
+}
+.agenda-time {
+  padding-top: 0.15rem;
+  font-family: var(--display); font-weight: 600; font-size: 0.98rem;
+  font-variant-numeric: tabular-nums; color: var(--green);
+}
+.agenda-body { grid-column: 3; min-width: 0; }
+.agenda-body h3 { font-size: 1.05rem; margin: 0; color: var(--ink); }
+.agenda-body p { margin: 0.3rem 0 0; font-size: 0.9rem; color: var(--ink-soft); max-width: 56ch; }
+.agenda-who { font-size: 0.82rem !important; color: var(--green) !important; letter-spacing: 0.02em; }
+.agenda-tag {
+  display: inline-block; vertical-align: 0.15em; margin-left: 0.45rem;
+  font-family: var(--sans); font-size: 0.6rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.12em; color: var(--sea);
+  padding: 0.16rem 0.5rem; border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--sea) 35%, var(--line));
+  background: color-mix(in srgb, var(--sea) 9%, transparent);
+}
+
+/* Anchor sessions are tinted and get a filled marker; breaks recede. */
+.agenda-item.is-highlight::after { background: var(--green-deep); border-color: var(--green-deep); }
+.agenda-item.is-highlight .agenda-body {
+  background: color-mix(in srgb, var(--cyan) 13%, transparent);
+  padding: 0.6rem 0.9rem; margin: -0.6rem -0.9rem; border-radius: 10px;
+}
+.agenda-item.is-break { padding-block: 0.55rem; }
+.agenda-item.is-break::after {
+  width: 6px; height: 6px; top: 1.25rem; left: calc(7rem + 0.95rem - 3px);
+  background: var(--line); border-color: var(--line);
+}
+.agenda-item.is-break .agenda-time,
+.agenda-item.is-break .agenda-body h3 {
+  color: var(--ink-soft); font-weight: 500;
+  font-family: var(--sans); font-size: 0.85rem;
+  text-transform: uppercase; letter-spacing: 0.1em;
+}
+
+/* --- Speakers: one card per invited talk --- */
+.speakers {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 0.9rem; margin-top: 2.2rem; max-width: 760px;
+}
+.speaker {
+  display: flex; flex-direction: column; gap: 0.15rem;
+  padding: 1.05rem 1.15rem; border-radius: 12px;
+  border: 1px solid var(--line); background: var(--bg);
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+.speaker:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--cyan) 55%, var(--line));
+  box-shadow: 0 12px 30px -24px var(--green-deep);
+}
+.speaker-topic {
+  font-size: 0.66rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.13em;
+  color: var(--green);
+}
+.speaker-name {
+  font-family: var(--display); font-weight: 600; font-size: 1.05rem;
+  letter-spacing: -0.01em; color: var(--ink);
+}
+.speaker-affil { font-size: 0.84rem; color: var(--ink-soft); margin-top: 0.15rem; }
+
+/* Placeholder slots, until speakers are confirmed. */
+.speaker.is-tba { border-style: dashed; background: transparent; }
+.speaker.is-tba .speaker-name { color: var(--ink-soft); font-style: italic; font-weight: 500; }
+
+/* --- Registration --- */
+.register-card {
+  margin-top: 2rem; max-width: 760px;
+  border: 1px solid color-mix(in srgb, var(--cyan) 34%, var(--line));
+  border-radius: 14px; padding: 1.7rem 1.8rem;
+  background: linear-gradient(165deg, color-mix(in srgb, var(--cyan) 11%, var(--bg)), var(--bg) 62%);
+  box-shadow: 0 22px 44px -38px var(--green-deep);
+}
+.form-placeholder {
+  border: 1px dashed color-mix(in srgb, var(--green) 35%, var(--line));
+  border-radius: 12px; padding: 1.4rem 1.5rem;
+  background: color-mix(in srgb, var(--green) 4%, var(--bg));
+}
+.form-placeholder-badge {
+  display: inline-block; margin-bottom: 0.7rem;
+  font-size: 0.66rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.13em;
+  color: var(--green-deep);
+  background: color-mix(in srgb, var(--cyan) 22%, transparent);
+  padding: 0.22rem 0.6rem; border-radius: 999px;
+}
+.form-placeholder p { margin: 0; font-size: 0.94rem; color: var(--ink-soft); max-width: 56ch; }
+.form-placeholder strong { color: var(--ink); }
+
+/* The Microsoft Forms embed, once its <iframe> replaces the placeholder. */
+.ms-form {
+  display: block; width: 100%; height: 640px;
+  border: 1px solid var(--line); border-radius: 12px; background: var(--bg);
+}
+.register-actions { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1.4rem; }
+
+/* --- Venue --- */
+.venue {
+  max-width: 760px; border: 1px solid var(--line); border-radius: 14px;
+  background: var(--bg); padding: 1.7rem 1.8rem;
+}
+.venue-body h3 { font-size: 1.2rem; margin: 0 0 0.6rem; color: var(--ink); }
+.venue-address {
+  margin: 0 0 1rem; font-size: 0.92rem; line-height: 1.6; color: var(--ink-soft);
+}
+.venue-body p { margin: 0 0 0.9rem; font-size: 0.94rem; color: var(--ink-soft); max-width: 56ch; }
+.venue-body p:last-child { margin-bottom: 0; }
+.venue-body .dot { margin: 0 0.55rem; color: var(--sand); }
+
+@media (max-width: 900px) {
+  .wshero-art { display: none; }
+}
+@media (max-width: 560px) {
+  .agenda-item { grid-template-columns: 1fr; gap: 0.25rem; }
+  .agenda-item::before, .agenda-item::after { display: none; }
+  .agenda-body { grid-column: 1; }
+  .agenda-item.is-highlight .agenda-body { margin-inline: 0; }
+  .register-card, .venue { padding: 1.3rem 1.2rem; }
+  .register-actions .btn { width: 100%; justify-content: center; }
 }

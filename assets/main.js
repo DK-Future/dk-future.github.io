@@ -87,9 +87,26 @@
     return el;
   }
 
-  var grid = document.getElementById("team-grid");
-  if (grid && Array.isArray(window.DK_PEOPLE)) {
-    window.DK_PEOPLE.forEach(function (p) { grid.appendChild(renderPerson(p)); });
+  /* A grid shows everyone in people.js, unless it carries a data-people
+     attribute — a "|"-separated list of names, rendered in that order.
+     (Used by the workshop page to show just the organisers.) */
+  function peopleFor(grid) {
+    var all = window.DK_PEOPLE;
+    var only = grid.getAttribute("data-people");
+    if (!only) return all;
+    return only.split("|").map(function (name) {
+      var wanted = name.trim();
+      for (var i = 0; i < all.length; i++) {
+        if (all[i].name === wanted) return all[i];
+      }
+      return null;
+    }).filter(Boolean);
+  }
+
+  if (Array.isArray(window.DK_PEOPLE)) {
+    document.querySelectorAll(".team-grid").forEach(function (grid) {
+      peopleFor(grid).forEach(function (p) { grid.appendChild(renderPerson(p)); });
+    });
   }
 
   /* ---------- Hero: Denmark land-use mosaic (canvas) ----------

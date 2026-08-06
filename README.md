@@ -9,10 +9,11 @@ It is a plain static site: no build step, no framework. Just open `index.html`.
 ## Structure
 
 ```
-index.html          The whole page (project · research · team · contact)
+index.html            Front page (project · research · team · events · contact)
+workshop-2026-08.html Workshop page (programme · registration · venue · organisers)
 assets/
   style.css         All styling (colors are CSS variables at the top)
-  main.js           Reveal animations + renders the team grid
+  main.js           Reveal animations + renders the people grids
   people.js         ← edit this to add/update team members
   favicon.svg       Site icon
 CNAME               Custom domain (dkfuture.dk) for GitHub Pages
@@ -26,6 +27,24 @@ CNAME               Custom domain (dkfuture.dk) for GitHub Pages
 - **Text / sections** — edit `index.html` directly.
 - **Colors / fonts** — edit the variables in the `:root` block at the top of
   `assets/style.css`.
+
+## Workshop pages
+
+One page per workshop, named `workshop-<year>-<month>.html` so future events don't
+collide — `workshop-2026-08.html` is the page behind the event card on the front
+page. Everything that needs filling in is marked with a comment in the file:
+
+- **Programme** — each row is one `<li class="agenda-item">`; add `is-break` for
+  meals/coffee, `is-highlight` to tint an anchor session.
+- **Speakers** — a separate Speakers section exists but is commented out, since
+  the programme already names every confirmed speaker. To bring it back,
+  uncomment the block and renumber the sections after it.
+- **Registration** — either paste the Microsoft Forms share link into the
+  "Open the registration form" button, or paste the form's embed `<iframe>`
+  (Forms → Collect responses → Embed) in place of the `.form-placeholder` block
+  and give it `class="ms-form"`. Until then, the email fallback handles sign-ups.
+- **Organisers** — the grid's `data-people` attribute lists which people from
+  `people.js` to show, in order.
 
 ## Local preview
 
