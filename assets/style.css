@@ -433,16 +433,6 @@ a.event:hover .event-more .arrow { transform: translateX(3px); }
 }
 
 /* --- Agenda --- */
-.agenda-note {
-  max-width: 64ch; margin: 0 0 2rem; padding: 0.9rem 1.1rem;
-  font-size: 0.88rem; color: var(--ink-soft); line-height: 1.55;
-  border: 1px solid color-mix(in srgb, var(--sand) 60%, var(--line));
-  border-left: 3px solid var(--sand);
-  border-radius: 0 10px 10px 0;
-  background: color-mix(in srgb, var(--sand) 12%, var(--bg));
-}
-.agenda-note strong { color: var(--ink); }
-
 /* A timeline: times in the left column, a rail of markers, then the session. */
 .agenda { list-style: none; margin: 0; padding: 0; max-width: 760px; }
 .agenda-item {
