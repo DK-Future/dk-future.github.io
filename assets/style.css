@@ -470,22 +470,36 @@ a.event:hover .event-more .arrow { transform: translateX(3px); }
   border: 1px solid color-mix(in srgb, var(--sea) 35%, var(--line));
   background: color-mix(in srgb, var(--sea) 9%, transparent);
 }
-/* Empty slots waiting on each speaker's title and abstract. Delete the whole
-   <dl> once a talk's real title and abstract are in. */
-.agenda-pending {
-  display: grid; grid-template-columns: max-content 1fr;
-  gap: 0.3rem 1rem; align-items: baseline;
-  margin: 0.75rem 0 0; padding: 0.65rem 0.9rem; max-width: 46ch;
-  border: 1px dashed color-mix(in srgb, var(--sand) 75%, var(--line));
-  border-radius: 8px;
-  background: color-mix(in srgb, var(--sand) 8%, transparent);
+/* Click-to-expand abstract. The title is the heading above; drop "To be
+   announced." for the real abstract as each speaker sends it in. */
+.agenda-abstract { margin-top: 0.6rem; }
+.agenda-abstract summary {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  width: max-content; cursor: pointer; list-style: none;
+  font-size: 0.66rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.13em; color: var(--green);
+  padding: 0.18rem 0.6rem 0.18rem 0.45rem; border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--green) 20%, var(--line));
+  background: color-mix(in srgb, var(--green) 5%, transparent);
+  transition: border-color 0.2s ease, background 0.2s ease;
 }
-.agenda-pending dt {
-  font-size: 0.6rem; font-weight: 600; text-transform: uppercase;
-  letter-spacing: 0.12em; color: var(--green);
+.agenda-abstract summary::-webkit-details-marker { display: none; }
+.agenda-abstract summary::before {
+  content: ""; width: 0; height: 0;
+  border-left: 4.5px solid currentColor;
+  border-block: 3.5px solid transparent;
+  transition: transform 0.2s ease;
 }
-.agenda-pending dd {
-  margin: 0; font-size: 0.85rem; font-style: italic; color: var(--ink-soft);
+.agenda-abstract[open] summary::before { transform: rotate(90deg); }
+.agenda-abstract summary:hover {
+  border-color: color-mix(in srgb, var(--green) 45%, var(--line));
+  background: color-mix(in srgb, var(--green) 9%, transparent);
+}
+.agenda-abstract summary:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+.agenda-abstract > p {
+  margin: 0.6rem 0 0; padding-left: 0.6rem;
+  border-left: 2px solid color-mix(in srgb, var(--sand) 70%, var(--line));
+  font-size: 0.88rem; color: var(--ink-soft); max-width: 56ch;
 }
 
 /* Anchor sessions are tinted and get a filled marker; breaks recede. */

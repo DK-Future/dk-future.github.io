@@ -40,9 +40,11 @@ page. Everything that needs filling in is marked with a comment in the file:
   the programme already names every confirmed speaker. To bring it back,
   uncomment the block and renumber the sections after it.
 - **Registration** — the "Open the registration form" button links to the
-  Microsoft Form; email registration stays as a fallback. To show the form
-  inline instead, paste its embed `<iframe>` (Forms → Collect responses →
-  Embed) in place of the `.form-note` block and give it `class="ms-form"`.
+  Microsoft Form. To show the form inline instead, paste its embed `<iframe>`
+  (Forms → Collect responses → Embed) in place of the `.form-note` block and
+  give it `class="ms-form"`.
+- **Abstracts** — each talk has a `<details class="agenda-abstract">` that
+  expands on click. Replace "To be announced." with the real abstract.
 - **Organisers** — the grid's `data-people` attribute lists which people from
   `people.js` to show, in order.
 
