@@ -551,34 +551,12 @@ a.event:hover .event-more .arrow { transform: translateX(3px); }
 .speaker.is-tba .speaker-name { color: var(--ink-soft); font-style: italic; font-weight: 500; }
 
 /* --- Registration --- */
-.register-card {
-  margin-top: 2rem; max-width: 760px;
-  border: 1px solid color-mix(in srgb, var(--cyan) 34%, var(--line));
-  border-radius: 14px; padding: 1.7rem 1.8rem;
-  background: linear-gradient(165deg, color-mix(in srgb, var(--cyan) 11%, var(--bg)), var(--bg) 62%);
-  box-shadow: 0 22px 44px -38px var(--green-deep);
-}
-.form-note {
-  border: 1px solid color-mix(in srgb, var(--green) 22%, var(--line));
-  border-radius: 12px; padding: 1.4rem 1.5rem;
-  background: color-mix(in srgb, var(--green) 4%, var(--bg));
-}
-.form-note-badge {
-  display: inline-block; margin-bottom: 0.7rem;
-  font-size: 0.66rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.13em;
-  color: var(--green-deep);
-  background: color-mix(in srgb, var(--cyan) 22%, transparent);
-  padding: 0.22rem 0.6rem; border-radius: 999px;
-}
-.form-note p { margin: 0; font-size: 0.94rem; color: var(--ink-soft); max-width: 56ch; }
-.form-note strong { color: var(--ink); }
-
-/* The Microsoft Forms embed, if its <iframe> replaces the .form-note block. */
+/* The Microsoft Forms embed, if its <iframe> is dropped in above the button. */
 .ms-form {
-  display: block; width: 100%; height: 640px;
+  display: block; width: 100%; max-width: 760px; height: 640px;
   border: 1px solid var(--line); border-radius: 12px; background: var(--bg);
 }
-.register-actions { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1.4rem; }
+.register-actions { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1.6rem; }
 
 /* --- Venue --- */
 .venue {
@@ -601,6 +579,6 @@ a.event:hover .event-more .arrow { transform: translateX(3px); }
   .agenda-item::before, .agenda-item::after { display: none; }
   .agenda-body { grid-column: 1; }
   .agenda-item.is-highlight .agenda-body { margin-inline: 0; }
-  .register-card, .venue { padding: 1.3rem 1.2rem; }
+  .venue { padding: 1.3rem 1.2rem; }
   .register-actions .btn { width: 100%; justify-content: center; }
 }
