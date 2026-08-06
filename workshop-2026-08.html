@@ -325,17 +325,11 @@
        ============================================================== -->
 
   <!-- ===================== Registration =====================
-       Email registration is the live path until a Microsoft Form exists.
-       When it does, wire it up either way:
-
-       A) LINK. Uncomment the second button below, put the form's share link
-          in its href, and swap the classes so it is .btn-primary and the
-          email button .btn-ghost.
-
-       B) EMBED. In Microsoft Forms: Collect responses -> Embed -> copy the
-          <iframe>. Paste it in place of the .form-placeholder block below and
-          give it class="ms-form". Keep the link button too, as a fallback for
-          browsers that block third-party frames.
+       The Microsoft Form is wired up as a link. To embed it inline instead:
+       Microsoft Forms -> Collect responses -> Embed -> copy the <iframe>,
+       paste it in place of the .form-note block below and give it
+       class="ms-form". Keep the link button as a fallback for browsers that
+       block third-party frames.
        ======================================================== -->
   <section class="section section-alt" id="register">
     <div class="section-head reveal">
@@ -352,18 +346,17 @@
     </div>
 
     <div class="register-card reveal">
-      <!-- Replace this block with the Microsoft Forms <iframe> when the form is live. -->
-      <div class="form-placeholder">
-        <span class="form-placeholder-badge">Open</span>
+      <div class="form-note">
+        <span class="form-note-badge">Open</span>
         <p>
-          Email us with your name and affiliation to reserve a place, noting any dietary
-          requirements. You will get a confirmation and the final programme by return.
+          The form takes a minute: name, affiliation, and any dietary requirements.
+          If you would rather not use it, email us instead and we will add you to the list.
         </p>
       </div>
 
       <div class="register-actions">
-        <a class="btn btn-primary" href="mailto:arma@cs.aau.dk?cc=jja@plan.aau.dk&amp;subject=DK-Future%20workshop%2025%20August%202026&amp;body=Hi%2C%0A%0AI%27d%20like%20to%20attend%20the%20DK-Future%20workshop%20on%2025%20August%202026.%0A%0AName%3A%0AAffiliation%3A%0ADietary%20requirements%3A%0A">Register by email</a>
-        <!-- <a class="btn btn-ghost" href="FORM_URL">Open the registration form</a> -->
+        <a class="btn btn-primary" href="https://forms.cloud.microsoft/e/bhUfKNhaGk" target="_blank" rel="noopener">Open the registration form</a>
+        <a class="btn btn-ghost" href="mailto:arma@cs.aau.dk?cc=jja@plan.aau.dk&amp;subject=DK-Future%20workshop%2025%20August%202026&amp;body=Hi%2C%0A%0AI%27d%20like%20to%20attend%20the%20DK-Future%20workshop%20on%2025%20August%202026.%0A%0AName%3A%0AAffiliation%3A%0ADietary%20requirements%3A%0A">Register by email</a>
       </div>
     </div>
   </section>

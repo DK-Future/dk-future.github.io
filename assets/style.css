@@ -526,22 +526,22 @@ a.event:hover .event-more .arrow { transform: translateX(3px); }
   background: linear-gradient(165deg, color-mix(in srgb, var(--cyan) 11%, var(--bg)), var(--bg) 62%);
   box-shadow: 0 22px 44px -38px var(--green-deep);
 }
-.form-placeholder {
-  border: 1px dashed color-mix(in srgb, var(--green) 35%, var(--line));
+.form-note {
+  border: 1px solid color-mix(in srgb, var(--green) 22%, var(--line));
   border-radius: 12px; padding: 1.4rem 1.5rem;
   background: color-mix(in srgb, var(--green) 4%, var(--bg));
 }
-.form-placeholder-badge {
+.form-note-badge {
   display: inline-block; margin-bottom: 0.7rem;
   font-size: 0.66rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.13em;
   color: var(--green-deep);
   background: color-mix(in srgb, var(--cyan) 22%, transparent);
   padding: 0.22rem 0.6rem; border-radius: 999px;
 }
-.form-placeholder p { margin: 0; font-size: 0.94rem; color: var(--ink-soft); max-width: 56ch; }
-.form-placeholder strong { color: var(--ink); }
+.form-note p { margin: 0; font-size: 0.94rem; color: var(--ink-soft); max-width: 56ch; }
+.form-note strong { color: var(--ink); }
 
-/* The Microsoft Forms embed, once its <iframe> replaces the placeholder. */
+/* The Microsoft Forms embed, if its <iframe> replaces the .form-note block. */
 .ms-form {
   display: block; width: 100%; height: 640px;
   border: 1px solid var(--line); border-radius: 12px; background: var(--bg);

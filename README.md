@@ -39,10 +39,10 @@ page. Everything that needs filling in is marked with a comment in the file:
 - **Speakers** — a separate Speakers section exists but is commented out, since
   the programme already names every confirmed speaker. To bring it back,
   uncomment the block and renumber the sections after it.
-- **Registration** — either paste the Microsoft Forms share link into the
-  "Open the registration form" button, or paste the form's embed `<iframe>`
-  (Forms → Collect responses → Embed) in place of the `.form-placeholder` block
-  and give it `class="ms-form"`. Until then, the email fallback handles sign-ups.
+- **Registration** — the "Open the registration form" button links to the
+  Microsoft Form; email registration stays as a fallback. To show the form
+  inline instead, paste its embed `<iframe>` (Forms → Collect responses →
+  Embed) in place of the `.form-note` block and give it `class="ms-form"`.
 - **Organisers** — the grid's `data-people` attribute lists which people from
   `people.js` to show, in order.
 
