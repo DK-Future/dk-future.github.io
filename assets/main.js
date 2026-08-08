@@ -96,9 +96,7 @@
      Rendered on a <canvas> rather than ~1600 clipped SVG rects, which
      keeps Safari fast: parallax just moves one bitmap and cell changes
      are cheap redraws instead of re-rasterising a clipped SVG.        */
-  var heroArt = document.querySelector(".hero-art");
   var canvas = document.querySelector(".denmark-canvas");
-  var hero = document.querySelector(".hero");
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   if (canvas && canvas.getContext) {
@@ -113,7 +111,11 @@
       return Math.min(TONES.length - 1, Math.max(0, Math.floor(v * TONES.length)));
     }
 
-    // Denmark outline -> one Path2D in 0..200 space
+    // Denmark outline -> one Path2D in 0..200 space. The country only fills
+    // part of that square, so we keep its bounding box (measured off the clip
+    // path) and draw to that instead - the canvas box then bounds the coast
+    // exactly, which is what the hero layout aligns against.
+    var BBOX = { x: 19.68, y: 0.02, w: 160.77, h: 199.82 };
     var dkPath = new Path2D();
     var M = new DOMMatrix([0.01953125, 0, 0, -0.01953125, 0, 200]);
     document.querySelectorAll("#dkClip path").forEach(function (p) {
@@ -141,8 +143,10 @@
       var w = canvas.width, h = canvas.height;
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.clearRect(0, 0, w, h);
-      var s = Math.min(w, h) / 200;
-      ctx.setTransform(s, 0, 0, s, (w - 200 * s) / 2, (h - 200 * s) / 2);
+      var s = Math.min(w / BBOX.w, h / BBOX.h);
+      ctx.setTransform(s, 0, 0, s,
+                       (w - BBOX.w * s) / 2 - BBOX.x * s,
+                       (h - BBOX.h * s) / 2 - BBOX.y * s);
       ctx.save();
       ctx.clip(dkPath);
       for (var i = 0; i < cells.length; i++) {
@@ -188,30 +192,90 @@
     }
   }
 
-  /* ---------- Hero: pointer + scroll parallax ---------- */
-  if (heroArt && hero && !reduce) {
-    var tx = 0, ty = 0, cx = 0, cy = 0, raf = null;
-    function tick() {
-      cx += (tx - cx) * 0.08;
-      cy += (ty - cy) * 0.08;
-      heroArt.style.setProperty("--dk-x", cx.toFixed(2) + "px");
-      heroArt.style.setProperty("--dk-y", cy.toFixed(2) + "px");
-      if (Math.abs(tx - cx) > 0.1 || Math.abs(ty - cy) > 0.1) {
-        raf = requestAnimationFrame(tick);
-      } else { raf = null; }
-    }
-    function nudge() { if (!raf) raf = requestAnimationFrame(tick); }
+  /* ---------- Upcoming events carousel ----------
+     Deliberately manual: arrows, dots, drag/swipe and keyboard, but no
+     autoplay - it sits high on the page and should not steal attention.
+     With a single event the controls stay hidden and it reads as a card. */
+  var track = document.querySelector(".upcoming-track");
+  if (track) {
+    var slides = track.querySelectorAll(".upcoming-slide");
+    var nav = document.querySelector(".upcoming-nav");
+    var dotBox = document.querySelector(".upcoming-dots");
 
-    hero.addEventListener("pointermove", function (e) {
-      var r = hero.getBoundingClientRect();
-      tx = ((e.clientX - r.left) / r.width - 0.5) * 34;
-      ty = ((e.clientY - r.top) / r.height - 0.5) * 24;
-      nudge();
-    });
-    hero.addEventListener("pointerleave", function () { tx = 0; ty = 0; nudge(); });
-    window.addEventListener("scroll", function () {
-      if (window.scrollY < window.innerHeight) { ty = window.scrollY * 0.03; nudge(); }
-    }, { passive: true });
+    if (slides.length > 1) {
+      nav.hidden = false;
+      dotBox.hidden = false;
+
+      var dots = [];
+      slides.forEach(function (slide, i) {
+        var d = document.createElement("button");
+        d.type = "button";
+        d.className = "upcoming-dot";
+        d.setAttribute("aria-label", "Event " + (i + 1) + " of " + slides.length);
+        d.addEventListener("click", function () { goTo(i); });
+        dotBox.appendChild(d);
+        dots.push(d);
+      });
+
+      var buttons = nav.querySelectorAll(".upcoming-btn");
+
+      function current() {
+        // Slides are equal width, so position maps straight to an index.
+        return Math.round(track.scrollLeft / (track.scrollWidth / slides.length));
+      }
+
+      /* Scripted with rAF rather than scrollTo({behavior:"smooth"}): a
+         mandatory snap container cancels the native animation, and snapping
+         also fights a scripted one, so we suspend it for the duration. */
+      var restoreSnap = null;
+      function animateTo(x) {
+        if (reduce) { track.scrollLeft = x; return; }
+        var from = track.scrollLeft, dist = x - from, started = null, DUR = 380;
+        track.style.scrollSnapType = "none";
+        clearTimeout(restoreSnap);
+        requestAnimationFrame(function step(ts) {
+          if (started === null) started = ts;
+          var p = Math.min(1, (ts - started) / DUR);
+          var eased = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+          track.scrollLeft = from + dist * eased;
+          if (p < 1) { requestAnimationFrame(step); return; }
+          track.scrollLeft = x;
+          restoreSnap = setTimeout(function () { track.style.scrollSnapType = ""; }, 60);
+        });
+      }
+
+      function goTo(i) {
+        var clamped = Math.max(0, Math.min(slides.length - 1, i));
+        animateTo(slides[clamped].offsetLeft - slides[0].offsetLeft);
+      }
+      function sync() {
+        var i = current();
+        dots.forEach(function (d, n) { d.setAttribute("aria-current", n === i ? "true" : "false"); });
+        buttons[0].disabled = i <= 0;
+        buttons[1].disabled = i >= slides.length - 1;
+      }
+
+      buttons.forEach(function (b) {
+        b.addEventListener("click", function () {
+          goTo(current() + Number(b.dataset.dir));
+        });
+      });
+
+      // Scroll fires in bursts; settle before reading the position back.
+      var settle = null;
+      track.addEventListener("scroll", function () {
+        clearTimeout(settle);
+        settle = setTimeout(sync, 80);
+      }, { passive: true });
+
+      track.addEventListener("keydown", function (e) {
+        if (e.key === "ArrowRight") { e.preventDefault(); goTo(current() + 1); }
+        if (e.key === "ArrowLeft") { e.preventDefault(); goTo(current() - 1); }
+      });
+
+      window.addEventListener("resize", sync);
+      sync();
+    }
   }
 
   /* ---------- Reveal on scroll ---------- */

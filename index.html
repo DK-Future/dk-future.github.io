@@ -30,30 +30,35 @@
       <a href="#research">Research</a>
       <a href="#team">Team</a>
       <a href="#events">Events</a>
-      <a href="#contact">Contact</a>
       <!-- Coming later: <a href="publications.html">Publications</a> -->
     </nav>
   </header>
 
   <!-- ===================== Hero ===================== -->
   <section class="hero" id="top">
-    <!-- Hero art: a Denmark land-use mosaic (cells drift between landscape
-         tones) coupled with a fan of forecast curves projected from the
-         country's east coast - many possible futures. -->
-    <div class="landscape" aria-hidden="true">
-      <div class="hero-art">
-        <svg class="dk-fan" viewBox="0 0 1200 800" preserveAspectRatio="none">
-          <path d="M700,410 C850,405 1000,248 1200,150" />
-          <path d="M700,410 C860,408 1000,300 1200,250" />
-          <path d="M700,410 C880,410 1010,360 1200,348" />
-          <path d="M700,410 C860,412 1010,410 1200,442" />
-          <path d="M700,410 C880,413 1010,470 1200,540" />
-          <path d="M700,410 C860,416 1000,520 1200,632" />
-          <path d="M700,410 C850,419 1000,560 1200,712" />
-        </svg>
-        <div class="denmark">
-          <canvas class="denmark-canvas"></canvas>
-          <svg class="dk-pathdata" width="0" height="0" aria-hidden="true">
+    <!-- Two columns: a Denmark land-use mosaic (cells drift between landscape
+         tones) on the left, the copy on the right. The forecast fan is laid
+         over the whole grid, projected east from the country's coast - many
+         possible futures - so the curves sweep on behind the headline. -->
+    <div class="hero-inner">
+      <!-- Tapered ribbons rather than plain strokes, echoing the AAU mark:
+           each one is needle-sharp where it leaves the coast at (408,410) and
+           broadens toward the horizon, with the gaps between them opening the
+           same way. Reads as roads receding from a vanishing point, and as a
+           fan chart whose spread widens with the forecast horizon. Every path
+           closes back on the same point, so the tips stay sharp. -->
+      <svg class="dk-fan" viewBox="0 0 1200 800" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M408,410 C640,394 940,295 1200,135 L1200,210 C940,326 640,398 408,410 Z" />
+        <path d="M408,410 C640,400 940,338 1200,238 L1200,307 C940,367 640,404 408,410 Z" />
+        <path d="M408,410 C640,405 940,378 1200,333 L1200,397 C940,404 640,409 408,410 Z" />
+        <path d="M408,410 C640,411 940,415 1200,423 L1200,487 C940,442 640,415 408,410 Z" />
+        <path d="M408,410 C640,416 940,454 1200,514 L1200,586 C940,484 640,421 408,410 Z" />
+        <path d="M408,410 C640,422 940,497 1200,616 L1200,699 C940,531 640,427 408,410 Z" />
+      </svg>
+
+      <div class="denmark" aria-hidden="true">
+        <canvas class="denmark-canvas"></canvas>
+        <svg class="dk-pathdata" width="0" height="0" aria-hidden="true">
         <defs>
           <clipPath id="dkClip" clipPathUnits="userSpaceOnUse">
             <path transform="matrix(0.01953125,0,0,-0.01953125,0,200)" d="M5464 10221 c-42 -19 -150 -108 -269 -221 -83 -79 -169 -150 -182
@@ -376,12 +381,9 @@ l17 -73 53 -2 c28 -1 59 -2 69 -2 25 -1 58 118 43 161 -9 27 -8 39 11 75 12
           </clipPath>
         </defs>
       </svg>
-        </div>
       </div>
-    </div>
 
-    <div class="hero-inner">
-    <div class="hero-content">
+      <div class="hero-content">
       <p class="eyebrow">Villum Synergy · Aalborg University · 2026&ndash;2028</p>
       <h1>Forecasting Denmark's <em>future landscape</em>.</h1>
       <p class="lede">
@@ -393,7 +395,52 @@ l17 -73 53 -2 c28 -1 59 -2 69 -2 25 -1 58 118 43 161 -9 27 -8 39 11 75 12
         <a class="btn btn-primary" href="#project">About the project</a>
         <a class="btn btn-ghost" href="#team">Meet the team</a>
       </div>
+      </div>
     </div>
+  </section>
+
+  <!-- ===================== Upcoming events =====================
+       A quiet strip straight under the hero so visitors see what's coming
+       without hunting for it. Manual only - no autoplay. The controls stay
+       hidden unless there is more than one event, so a single event just
+       reads as a card. -->
+  <section class="upcoming" id="events" aria-labelledby="upcoming-title">
+    <div class="upcoming-inner">
+      <div class="upcoming-head">
+        <h2 id="upcoming-title">Upcoming</h2>
+        <div class="upcoming-nav" hidden>
+          <button class="upcoming-btn" type="button" data-dir="-1" aria-label="Previous event">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg>
+          </button>
+          <button class="upcoming-btn" type="button" data-dir="1" aria-label="Next event">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
+          </button>
+        </div>
+      </div>
+
+      <ul class="upcoming-track" tabindex="0" aria-label="Upcoming events">
+        <li class="upcoming-slide">
+          <article class="event">
+            <div class="event-date" aria-hidden="true">
+              <span class="event-day">25</span>
+              <span class="event-month">Aug</span>
+              <span class="event-year">2026</span>
+            </div>
+            <div class="event-body">
+              <span class="event-status">Upcoming</span>
+              <h3>Danish Land Use Futures under Climate Change</h3>
+              <p class="event-meta">Workshop · Aalborg University, Copenhagen</p>
+              <p>
+                A one&#8209;day workshop bringing together researchers and practitioners working on
+                land use, climate scenarios, and geospatial modelling in Denmark. The full programme
+                and speakers will be announced here closer to the date.
+              </p>
+            </div>
+          </article>
+        </li>
+      </ul>
+
+      <div class="upcoming-dots" hidden></div>
     </div>
   </section>
 
@@ -552,45 +599,6 @@ l17 -73 53 -2 c28 -1 59 -2 69 -2 25 -1 58 118 43 161 -9 27 -8 39 11 75 12
       <span class="dot">·</span>
       <span>Department of Sustainability and Planning</span>
     </p>
-  </section>
-
-  <!-- ===================== Events ===================== -->
-  <section class="section section-alt" id="events">
-    <div class="section-head reveal">
-      <span class="section-num">04</span>
-      <h2>Events</h2>
-    </div>
-    <div class="event reveal">
-      <div class="event-date" aria-hidden="true">
-        <span class="event-day">25</span>
-        <span class="event-month">Aug</span>
-        <span class="event-year">2026</span>
-      </div>
-      <div class="event-body">
-        <span class="event-status">Upcoming</span>
-        <h3>Danish Land Use Futures under Climate Change</h3>
-        <p class="event-meta">Workshop · Aalborg University, Copenhagen</p>
-        <p>
-          A one&#8209;day workshop bringing together researchers and practitioners working on
-          land use, climate scenarios, and geospatial modelling in Denmark. The full programme
-          and speakers will be announced here closer to the date.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================== Contact ===================== -->
-  <section class="section" id="contact">
-    <div class="section-head reveal">
-      <span class="section-num">05</span>
-      <h2>Contact</h2>
-    </div>
-    <div class="prose reveal">
-      <p>
-        For questions about the project or collaboration, reach out to the project lead,
-        <a href="mailto:arma@cs.aau.dk">Andrés R. Masegosa</a>.
-      </p>
-    </div>
   </section>
 
   <!-- ===================== Footer ===================== -->

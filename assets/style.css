@@ -96,11 +96,17 @@ h1, h2, h3 {
   min-height: min(76vh, 660px);
   padding-block: clamp(3rem, 7vh, 5rem);
 }
+/* Two columns inside the usual container: Denmark, then the copy. */
 .hero-inner {
+  position: relative;
   width: 100%; max-width: var(--max);
   margin: 0 auto; padding-inline: var(--pad);
+  display: grid;
+  grid-template-columns: 0.62fr 1fr;
+  gap: clamp(2rem, 4vw, 3.5rem);
+  align-items: center;
 }
-.hero-content { position: relative; z-index: 2; max-width: 560px; }
+.hero-content { position: relative; z-index: 2; }
 .eyebrow {
   text-transform: uppercase; letter-spacing: 0.22em; font-size: 0.7rem;
   font-weight: 700; color: var(--green); margin: 0 0 1.4rem;
@@ -127,39 +133,41 @@ h1, h2, h3 {
 .btn-ghost { border-color: var(--line); color: var(--ink); }
 .btn-ghost:hover { border-color: var(--green); color: var(--green-deep); }
 
-/* Hero backdrop: Denmark land-use mosaic + projected forecast fan */
-.landscape { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
-.hero-art {
-  position: absolute;
-  right: -1%; top: 50%;
-  width: clamp(480px, 40vw, 980px); aspect-ratio: 1.42;
-  transform: translate(var(--dk-x, 0px), calc(-50% + var(--dk-y, 0px)));
-  will-change: transform;
-}
-/* Denmark sits in the left ~64% of the art zone */
-.denmark {
-  position: absolute; left: 0; top: 0; height: 100%; width: 64%;
-  opacity: 0.92;
-}
+/* Denmark fills its grid column. The aspect ratio matches the country's
+   bounding box (see BBOX in main.js), so the box edges are the coastline. */
+.denmark { position: relative; z-index: 1; aspect-ratio: 0.804; opacity: 0.92; }
 .denmark-canvas { width: 100%; height: 100%; display: block; }
 .dk-pathdata { position: absolute; width: 0; height: 0; }
 
-/* Forecast fan, projected east from the country */
+/* Forecast fan, projected east from the country. Laid over the whole grid so
+   the ribbons leave the coast and sweep on behind the headline, faint and
+   fading at the container edge: a watermark under the text rather than a rule
+   struck through it. Filled tapered shapes, not strokes - see the SVG. */
 .dk-fan {
-  position: absolute; inset: 0; width: 100%; height: 100%;
-  fill: none; stroke-width: 2; stroke-linecap: round;
+  /* Size is stated, not just inset: an SVG is a replaced element, so an auto
+     width/height would come from its viewBox ratio instead of the grid box. */
+  position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1;
+  pointer-events: none;
+  stroke: none;
+  opacity: 0.42;
+  -webkit-mask-image: linear-gradient(90deg, #000 0 70%, rgba(0,0,0,0.6) 88%, transparent 100%);
+  mask-image: linear-gradient(90deg, #000 0 70%, rgba(0,0,0,0.6) 88%, transparent 100%);
 }
-.dk-fan path { transform-origin: 58% 51%; animation: spread 9s ease-in-out infinite alternate; }
-.dk-fan path:nth-child(1) { stroke: var(--sea);       animation-delay: -0.3s; }
-.dk-fan path:nth-child(2) { stroke: #4f93a0;          animation-delay: -1.5s; }
-.dk-fan path:nth-child(3) { stroke: var(--cyan);      animation-delay: -2.7s; }
-.dk-fan path:nth-child(4) { stroke: var(--green);     animation-delay: -3.9s; }
-.dk-fan path:nth-child(5) { stroke: #4a7d54;          animation-delay: -5.1s; }
-.dk-fan path:nth-child(6) { stroke: var(--green-deep); animation-delay: -6.3s; }
-.dk-fan path:nth-child(7) { stroke: var(--sand);      animation-delay: -7.5s; }
+.dk-fan path {
+  transform-origin: 34% 51%;
+  animation: spread 9s ease-in-out infinite alternate;
+}
+.dk-fan path:nth-child(1) { fill: var(--sea);        animation-delay: -0.4s; }
+.dk-fan path:nth-child(2) { fill: #4f93a0;           animation-delay: -1.9s; }
+.dk-fan path:nth-child(3) { fill: var(--cyan);       animation-delay: -3.4s; }
+.dk-fan path:nth-child(4) { fill: var(--green);      animation-delay: -4.9s; }
+.dk-fan path:nth-child(5) { fill: #4a7d54;           animation-delay: -6.4s; }
+.dk-fan path:nth-child(6) { fill: var(--green-deep); animation-delay: -7.9s; }
+/* Ribbons breathe about the vanishing point, so the spread widens and narrows
+   the way a forecast interval would - the sharp tips stay pinned. */
 @keyframes spread {
-  from { transform: scaleY(0.9);  opacity: 0.78; }
-  to   { transform: scaleY(1.08); opacity: 1; }
+  from { transform: scaleY(0.88); opacity: 0.72; }
+  to   { transform: scaleY(1.10); opacity: 1; }
 }
 
 /* ===================== Sections ===================== */
@@ -263,11 +271,57 @@ h1, h2, h3 {
 .partners { margin-top: 3rem; color: var(--ink-soft); font-size: 0.82rem; letter-spacing: 0.04em; }
 .partners .dot { margin: 0 0.6rem; color: var(--sand); }
 
-/* Events */
+/* Upcoming events: a quiet band under the hero, scroll-snapped one at a time */
+.upcoming {
+  background: var(--bg-alt);
+  border-block: 1px solid var(--line);
+  padding-block: clamp(1.5rem, 3vw, 2.2rem);
+  scroll-margin-top: 72px; /* clears the sticky header on #events */
+}
+.upcoming-inner { max-width: var(--max); margin: 0 auto; padding-inline: var(--pad); }
+.upcoming-head {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem; margin-bottom: 1rem;
+}
+.upcoming-head h2 {
+  margin: 0; font-size: 0.72rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.22em; color: var(--green);
+}
+.upcoming-nav { display: flex; gap: 0.45rem; }
+.upcoming-nav[hidden], .upcoming-dots[hidden] { display: none; }
+.upcoming-btn {
+  width: 30px; height: 30px; padding: 0;
+  display: grid; place-items: center;
+  border: 1px solid var(--line); border-radius: 50%;
+  background: var(--bg); color: var(--ink-soft); cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+}
+.upcoming-btn svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; }
+.upcoming-btn:hover:not(:disabled) { border-color: var(--green); color: var(--green-deep); }
+.upcoming-btn:disabled { opacity: 0.3; cursor: default; }
+
+.upcoming-track {
+  display: flex; gap: 1.2rem;
+  margin: 0; padding: 0; list-style: none;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: none;
+}
+.upcoming-track::-webkit-scrollbar { display: none; }
+.upcoming-slide { flex: 0 0 100%; scroll-snap-align: start; }
+
+.upcoming-dots { display: flex; justify-content: center; gap: 0.45rem; margin-top: 1rem; }
+.upcoming-dot {
+  width: 7px; height: 7px; padding: 0; border: 0; border-radius: 50%;
+  background: var(--line); cursor: pointer; transition: background 0.2s ease;
+}
+.upcoming-dot[aria-current="true"] { background: var(--green); }
+
 .event {
   display: flex; gap: 1.6rem; align-items: flex-start;
   background: var(--bg); border: 1px solid var(--line); border-radius: 14px;
-  padding: 1.7rem 1.8rem; max-width: 760px;
+  padding: 1.7rem 1.8rem;
 }
 .event-date {
   flex: 0 0 auto; width: 84px; text-align: center; line-height: 1;
@@ -305,15 +359,16 @@ h1, h2, h3 {
 
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; transition: none; }
-  .denmark-grid rect { transition: none; }
   .dk-fan path { animation: none; }
   html { scroll-behavior: auto; }
 }
 
-/* The Denmark mosaic is a desktop flourish; on narrow screens it would
-   sit behind the body text, so we drop it and tighten the hero instead. */
+/* The hero art is a desktop flourish: it needs room for Denmark beside the
+   text. Below that the columns collapse, so we drop the art and tighten the
+   hero rather than stack a mosaic on top of the headline. */
 @media (max-width: 1000px) {
-  .landscape { display: none; }
+  .hero-inner { grid-template-columns: 1fr; }
+  .denmark, .dk-fan { display: none; }
   .hero { min-height: auto; }
 }
 
