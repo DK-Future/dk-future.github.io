@@ -25,7 +25,7 @@ window.DK_PEOPLE = [
   },
   {
     name: "Jamal Jokar Arsanjani",
-    role: "Co-Principal Investigator",
+    role: "Principal Investigator",
     affil: "Professor · Dept. of Sustainability and Planning, Aalborg University",
     photo: "assets/img/jamal.jpg",
     links: {
