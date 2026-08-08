@@ -70,10 +70,11 @@ h1, h2, h3 {
 }
 .brand { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; color: var(--ink); }
 .brand-text { font-family: var(--display); font-weight: 600; font-size: 1.1rem; letter-spacing: -0.02em; }
+/* The favicon itself, so the tab and the header carry the same mark. The URL
+   is relative to this stylesheet, so it resolves from any page. */
 .brand-mark {
-  width: 16px; height: 16px; border-radius: 50%;
-  background: radial-gradient(circle at 32% 30%, var(--cyan), var(--green-deep));
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--cyan) 16%, transparent);
+  width: 18px; height: 18px;
+  background: url("favicon.svg") center / contain no-repeat;
 }
 .site-nav { display: flex; gap: clamp(0.9rem, 2.5vw, 2rem); }
 .site-nav a {
