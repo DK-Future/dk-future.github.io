@@ -18,15 +18,16 @@
       .toUpperCase();
   }
 
-  var linkLabels = {
-    profile: "Profile",
-    scholar: "Scholar",
-    email: "Email"
-  };
-
   function renderPerson(p) {
-    var el = document.createElement("article");
+    /* The whole card links to the person's profile when one is given. */
+    var profile = p.links && p.links.profile;
+    var el = document.createElement(profile ? "a" : "article");
     el.className = "person";
+    if (profile) {
+      el.href = profile;
+      el.target = "_blank";
+      el.rel = "noopener";
+    }
 
     function makeInitials() {
       var d = document.createElement("div");
@@ -67,21 +68,6 @@
       affil.className = "person-affil";
       affil.textContent = p.affil;
       el.appendChild(affil);
-    }
-
-    if (p.links) {
-      var wrap = document.createElement("div");
-      wrap.className = "person-links";
-      Object.keys(linkLabels).forEach(function (key) {
-        var val = p.links[key];
-        if (!val) return;
-        var a = document.createElement("a");
-        a.textContent = linkLabels[key];
-        a.href = key === "email" ? "mailto:" + val : val;
-        if (key !== "email") { a.target = "_blank"; a.rel = "noopener"; }
-        wrap.appendChild(a);
-      });
-      if (wrap.childNodes.length) el.appendChild(wrap);
     }
 
     return el;

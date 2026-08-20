@@ -9,6 +9,8 @@
      photo   (optional)  Path to image, e.g. "assets/img/name.jpg".
                          If missing, initials are shown instead.
      links   (optional)  profile (VBN page), scholar, email.
+                         The whole card links to `profile`; the other
+                         fields are kept as a record but not rendered.
    ============================================================ */
 
 window.DK_PEOPLE = [
@@ -35,6 +37,17 @@ window.DK_PEOPLE = [
     }
   },
   {
+    name: "Karolina Pantazatou",
+    role: "Postdoctoral Researcher",
+    affil: "Dept. of Sustainability and Planning, Aalborg University",
+    photo: "assets/img/karolina.jpg",
+    links: {
+      profile: "https://vbn.aau.dk/da/persons/karolina-pantazatou/",
+      scholar: "https://scholar.google.com/citations?user=1_DKl6cAAAAJ",
+      email: "karolinadp@plan.aau.dk"
+    }
+  },
+  {
     name: "Albert Alonso",
     role: "Postdoctoral Researcher",
     affil: "Dept. of Computer Science, Aalborg University",
@@ -58,11 +71,12 @@ window.DK_PEOPLE = [
   },
   {
     name: "Oskar Max Lange",
-    role: "Student Researcher",
-    affil: "Aalborg University",
+    role: "Research Assistant",
+    affil: "Dept. of Sustainability and Planning, Aalborg University",
     photo: "",
     links: {
-      // Add profile / scholar / email when available
+      profile: "https://vbn.aau.dk/da/persons/oskarml/",
+      email: "oskarml@plan.aau.dk"
     }
   }
 ];
