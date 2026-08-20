@@ -19,9 +19,11 @@
 
   --max: 1080px;
   --pad: clamp(1.25rem, 5vw, 4rem);
+  --radius: 12px;      /* cards and panels */
+  --radius-sm: 8px;    /* buttons, small insets */
 
   --display: "Source Serif 4", Georgia, "Times New Roman", serif;
-  --sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --sans: "Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -55,41 +57,6 @@ h1, h2, h3 {
   letter-spacing: 0.13em;
 }
 
-/* ===================== Header ===================== */
-.site-header {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.9rem var(--pad);
-  background: color-mix(in srgb, var(--bg) 80%, transparent);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--line);
-}
-.brand { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; color: var(--ink); }
-.brand-text { font-family: var(--display); font-weight: 600; font-size: 1.1rem; letter-spacing: -0.02em; }
-/* The favicon itself, so the tab and the header carry the same mark. The URL
-   is relative to this stylesheet, so it resolves from any page. */
-.brand-mark {
-  width: 18px; height: 18px;
-  background: url("favicon.svg") center / contain no-repeat;
-}
-.site-nav { display: flex; gap: clamp(0.9rem, 2.5vw, 2rem); }
-.site-nav a {
-  color: var(--ink-soft); text-decoration: none; font-size: 0.86rem; font-weight: 500;
-  position: relative; padding: 0.2rem 0;
-}
-.site-nav a::after {
-  content: ""; position: absolute; left: 0; bottom: -2px; width: 0; height: 1.5px;
-  background: var(--cyan); transition: width 0.25s ease;
-}
-.site-nav a:hover { color: var(--ink); }
-.site-nav a:hover::after { width: 100%; }
-.site-nav a.is-current { color: var(--ink); }
-.site-nav a.is-current::after { width: 100%; background: var(--green); }
-
 /* ===================== Hero ===================== */
 .hero {
   position: relative;
@@ -111,7 +78,7 @@ h1, h2, h3 {
 }
 .hero-content { position: relative; z-index: 2; }
 .eyebrow {
-  text-transform: uppercase; letter-spacing: 0.22em; font-size: 0.7rem;
+  text-transform: uppercase; letter-spacing: 0.22em; font-size: 0.72rem;
   font-weight: 700; color: var(--green); margin: 0 0 1.4rem;
 }
 .hero h1 {
@@ -127,7 +94,7 @@ h1, h2, h3 {
 
 .hero-actions { display: flex; gap: 0.8rem; flex-wrap: wrap; }
 .btn {
-  display: inline-flex; align-items: center; padding: 0.72rem 1.5rem; border-radius: 8px;
+  display: inline-flex; align-items: center; padding: 0.72rem 1.5rem; border-radius: var(--radius-sm);
   font-weight: 500; font-size: 0.92rem; text-decoration: none; transition: all 0.2s ease;
   border: 1px solid transparent;
 }
@@ -178,11 +145,7 @@ h1, h2, h3 {
 .section-alt { max-width: none; background: var(--bg-alt); border-block: 1px solid var(--line); }
 .section-alt > * { max-width: var(--max); margin-inline: auto; }
 
-.section-head { display: flex; align-items: baseline; gap: 0.85rem; margin-bottom: 2rem; }
-.section-num {
-  font-family: var(--display); font-style: italic; font-weight: 500;
-  font-size: 1.15rem; color: var(--green);
-}
+.section-head { margin-bottom: 2rem; }
 .section-head h2 { font-size: clamp(1.7rem, 4vw, 2.5rem); margin: 0; }
 
 .prose { max-width: 64ch; color: var(--ink-soft); }
@@ -194,20 +157,20 @@ h1, h2, h3 {
 .facts {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 1px; margin-top: 2.8rem; background: var(--line);
-  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden;
 }
 .fact { background: var(--bg); padding: 1.25rem 1.35rem; display: flex; flex-direction: column; gap: 0.4rem; }
-.fact-label { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-soft); }
+.fact-label { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.13em; color: var(--ink-soft); }
 .fact-value { font-family: var(--display); font-weight: 600; font-size: 1.3rem; color: var(--green-deep); letter-spacing: -0.01em; }
 
 /* Funding acknowledgment */
 .funding {
   display: flex; align-items: center; gap: 1.6rem; margin-top: 1rem;
-  padding: 1.5rem 1.6rem; border: 1px solid var(--line); border-radius: 14px;
+  padding: 1.5rem 1.6rem; border: 1px solid var(--line); border-radius: var(--radius);
   background: var(--bg); text-decoration: none; color: inherit;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: border-color 0.2s ease;
 }
-.funding:hover { border-color: color-mix(in srgb, var(--green) 40%, var(--line)); box-shadow: 0 12px 30px -22px var(--green-deep); }
+.funding:hover { border-color: color-mix(in srgb, var(--green) 40%, var(--line)); }
 .funding-logo {
   flex: 0 0 auto; width: 150px; height: auto; align-self: center;
 }
@@ -225,24 +188,16 @@ h1, h2, h3 {
 .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.1rem; }
 .rcard {
   display: flex; gap: 1.15rem; align-items: flex-start;
-  background: var(--bg); border: 1px solid var(--line); border-radius: 14px;
+  background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius);
   padding: 1.6rem 1.55rem;
-  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-}
-.rcard:hover {
-  transform: translateY(-2px);
-  border-color: color-mix(in srgb, var(--tone) 50%, var(--line));
-  box-shadow: 0 12px 30px -22px color-mix(in srgb, var(--tone) 80%, black);
 }
 .rcard-icon {
-  flex: 0 0 auto; width: 46px; height: 46px; display: grid; place-items: center;
-  border-radius: 12px; color: var(--tone);
-  background: color-mix(in srgb, var(--tone) 11%, var(--bg));
-  border: 1px solid color-mix(in srgb, var(--tone) 24%, var(--line));
+  flex: 0 0 auto; display: grid; place-items: center;
+  color: var(--tone); margin-top: 0.1rem;
 }
-.rcard-icon svg { width: 24px; height: 24px; display: block; }
+.rcard-icon svg { width: 26px; height: 26px; display: block; }
 .rcard-kicker {
-  font-size: 0.66rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.14em;
+  font-size: 0.66rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.13em;
   color: var(--tone);
 }
 .rcard h3 { font-size: 1.12rem; margin: 0.18rem 0 0.45rem; color: var(--ink); }
@@ -252,7 +207,18 @@ h1, h2, h3 {
 
 /* Team */
 .team-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.6rem 1.4rem; margin-top: 2.4rem; }
-.person { display: flex; flex-direction: column; gap: 0.12rem; }
+/* A card may be an <a> to the person's profile — quiet until hovered. */
+.person { display: flex; flex-direction: column; gap: 0.12rem; text-decoration: none; color: inherit; }
+a.person:hover .person-name {
+  color: var(--green-deep);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+a.person:hover .person-avatar {
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--green) 18%, transparent);
+}
 .person-avatar {
   width: 100px; height: 100px; border-radius: 50%; margin-bottom: 0.9rem;
   display: grid; place-items: center; font-family: var(--display); font-weight: 500; font-size: 1.65rem;
@@ -260,16 +226,14 @@ h1, h2, h3 {
   background: color-mix(in srgb, var(--green) 9%, var(--bg));
   border: 1px solid var(--line);
   object-fit: cover;
+  /* Most of the photos are portrait-ratio: bias the circular crop toward
+     the top of the frame so faces stay in view. */
+  object-position: center 22%;
+  transition: border-color 0.2s ease;
 }
-.person-name { font-family: var(--display); font-weight: 600; font-size: 1.12rem; letter-spacing: -0.01em; }
-.person-role { font-size: 0.7rem; font-weight: 600; color: var(--green); margin-top: 0.15rem; }
+.person-name { font-family: var(--display); font-weight: 600; font-size: 1.12rem; letter-spacing: -0.01em; transition: color 0.2s ease; }
+.person-role { font-size: 0.66rem; font-weight: 600; color: var(--green); margin-top: 0.15rem; }
 .person-affil { font-size: 0.85rem; color: var(--ink-soft); margin-top: 0.25rem; }
-.person-links { margin-top: 0.6rem; display: flex; flex-wrap: wrap; gap: 0.4rem; }
-.person-links a {
-  font-size: 0.74rem; color: var(--ink-soft); text-decoration: none;
-  padding: 0.14rem 0.55rem; border: 1px solid var(--line); border-radius: 999px; transition: all 0.18s ease;
-}
-.person-links a:hover { color: var(--green-deep); border-color: var(--green); background: color-mix(in srgb, var(--green) 7%, transparent); }
 
 .partners { margin-top: 3rem; color: var(--ink-soft); font-size: 0.82rem; letter-spacing: 0.04em; }
 .partners .dot { margin: 0 0.6rem; color: var(--sand); }
@@ -279,7 +243,6 @@ h1, h2, h3 {
   background: var(--bg-alt);
   border-block: 1px solid var(--line);
   padding-block: clamp(1.5rem, 3vw, 2.2rem);
-  scroll-margin-top: 72px; /* clears the sticky header on #events */
 }
 .upcoming-inner { max-width: var(--max); margin: 0 auto; padding-inline: var(--pad); }
 .upcoming-head {
@@ -323,24 +286,18 @@ h1, h2, h3 {
 
 .event {
   display: flex; gap: 1.6rem; align-items: flex-start;
-  background: var(--bg); border: 1px solid var(--line); border-radius: 14px;
+  background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius);
   padding: 1.7rem 1.8rem;
 }
 .event-date {
   flex: 0 0 auto; width: 84px; text-align: center; line-height: 1;
-  border: 1px solid var(--line); border-radius: 12px; padding: 0.85rem 0.5rem;
+  border: 1px solid var(--line); border-radius: var(--radius); padding: 0.85rem 0.5rem;
   background: color-mix(in srgb, var(--green) 6%, var(--bg));
 }
 .event-day { display: block; font-family: var(--display); font-weight: 600; font-size: 2rem; color: var(--green-deep); }
 .event-month { display: block; margin-top: 0.2rem; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--green); }
 .event-year { display: block; margin-top: 0.15rem; font-size: 0.72rem; color: var(--ink-soft); }
 .event-body { flex: 1; }
-.event-status {
-  display: inline-block; font-size: 0.66rem; font-weight: 600; text-transform: uppercase;
-  letter-spacing: 0.13em; color: var(--green-deep);
-  background: color-mix(in srgb, var(--cyan) 22%, transparent);
-  padding: 0.22rem 0.6rem; border-radius: 999px; margin-bottom: 0.7rem;
-}
 .event-body h3 { font-size: 1.3rem; margin: 0 0 0.35rem; color: var(--ink); }
 .event-meta { margin: 0 0 0.7rem; font-size: 0.85rem; color: var(--green); text-transform: uppercase; letter-spacing: 0.08em; }
 .event-body p { margin: 0; color: var(--ink-soft); font-size: 0.96rem; max-width: 52ch; }
@@ -348,12 +305,10 @@ h1, h2, h3 {
 /* The event card doubles as a link to the workshop page. */
 a.event {
   text-decoration: none; color: inherit;
-  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  transition: border-color 0.2s ease;
 }
 a.event:hover {
-  transform: translateY(-2px);
   border-color: color-mix(in srgb, var(--green) 40%, var(--line));
-  box-shadow: 0 12px 30px -22px var(--green-deep);
 }
 a.event:hover .event-body h3 { color: var(--green-deep); }
 .event-more {
@@ -394,7 +349,6 @@ a.event:hover .event-more .arrow { transform: translateX(3px); }
 }
 
 @media (max-width: 560px) {
-  .brand-text { display: none; }
   .footer-inner { flex-direction: column; align-items: flex-start; }
 }
 
@@ -469,7 +423,7 @@ a.event:hover .event-more .arrow { transform: translateX(3px); }
 .wshost { display: flex; align-items: center; gap: 0.9rem; margin: 2.4rem 0 0; }
 .wshost-label {
   font-size: 0.66rem; font-weight: 600; text-transform: uppercase;
-  letter-spacing: 0.14em; color: var(--ink-soft);
+  letter-spacing: 0.13em; color: var(--ink-soft);
 }
 .wshost-logo { height: 26px; width: auto; display: block; opacity: 0.85; transition: opacity 0.2s ease; }
 .wshost a:hover .wshost-logo { opacity: 1; }
@@ -478,14 +432,13 @@ a.event:hover .event-more .arrow { transform: translateX(3px); }
 .topics { margin-top: 2.6rem; }
 .topics-label {
   display: block; font-size: 0.66rem; font-weight: 600; text-transform: uppercase;
-  letter-spacing: 0.14em; color: var(--ink-soft); margin-bottom: 0.9rem;
+  letter-spacing: 0.13em; color: var(--ink-soft); margin-bottom: 0.9rem;
 }
 .topic-list { display: flex; flex-wrap: wrap; gap: 0.5rem; list-style: none; margin: 0; padding: 0; }
 .topic-list li {
   font-size: 0.82rem; color: var(--green-deep);
   padding: 0.32rem 0.85rem; border-radius: 999px;
   border: 1px solid color-mix(in srgb, var(--green) 22%, var(--line));
-  background: color-mix(in srgb, var(--cyan) 12%, var(--bg));
 }
 
 /* --- Agenda --- */
@@ -520,11 +473,10 @@ a.event:hover .event-more .arrow { transform: translateX(3px); }
 .agenda-tag {
   display: inline-block; vertical-align: 0.18em; margin-left: 0.4rem;
   white-space: nowrap;
-  font-family: var(--sans); font-size: 0.58rem; font-weight: 600;
-  text-transform: uppercase; letter-spacing: 0.11em; color: var(--sea);
+  font-family: var(--sans); font-size: 0.62rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.13em; color: var(--sea);
   padding: 0.12rem 0.45rem; border-radius: 999px;
   border: 1px solid color-mix(in srgb, var(--sea) 35%, var(--line));
-  background: color-mix(in srgb, var(--sea) 9%, transparent);
 }
 /* Click-to-expand abstract. The title is the heading above; drop "To be
    announced." for the real abstract as each speaker sends it in. */
@@ -536,8 +488,7 @@ a.event:hover .event-more .arrow { transform: translateX(3px); }
   letter-spacing: 0.13em; color: var(--green);
   padding: 0.18rem 0.6rem 0.18rem 0.45rem; border-radius: 999px;
   border: 1px solid color-mix(in srgb, var(--green) 20%, var(--line));
-  background: color-mix(in srgb, var(--green) 5%, transparent);
-  transition: border-color 0.2s ease, background 0.2s ease;
+  transition: border-color 0.2s ease;
 }
 .agenda-abstract summary::-webkit-details-marker { display: none; }
 .agenda-abstract summary::before {
@@ -549,7 +500,6 @@ a.event:hover .event-more .arrow { transform: translateX(3px); }
 .agenda-abstract[open] summary::before { transform: rotate(90deg); }
 .agenda-abstract summary:hover {
   border-color: color-mix(in srgb, var(--green) 45%, var(--line));
-  background: color-mix(in srgb, var(--green) 9%, transparent);
 }
 .agenda-abstract summary:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
 .agenda-abstract > p {
@@ -562,7 +512,7 @@ a.event:hover .event-more .arrow { transform: translateX(3px); }
 .agenda-item.is-highlight::after { background: var(--green-deep); border-color: var(--green-deep); }
 .agenda-item.is-highlight .agenda-body {
   background: color-mix(in srgb, var(--cyan) 13%, transparent);
-  padding: 0.6rem 0.9rem; margin: -0.6rem -0.9rem; border-radius: 10px;
+  padding: 0.6rem 0.9rem; margin: -0.6rem -0.9rem; border-radius: var(--radius-sm);
 }
 .agenda-item.is-break { padding-block: 0.55rem; }
 .agenda-item.is-break::after {
@@ -583,14 +533,12 @@ a.event:hover .event-more .arrow { transform: translateX(3px); }
 }
 .speaker {
   display: flex; flex-direction: column; gap: 0.15rem;
-  padding: 1.05rem 1.15rem; border-radius: 12px;
+  padding: 1.05rem 1.15rem; border-radius: var(--radius);
   border: 1px solid var(--line); background: var(--bg);
-  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  transition: border-color 0.2s ease;
 }
 .speaker:hover {
-  transform: translateY(-2px);
   border-color: color-mix(in srgb, var(--cyan) 55%, var(--line));
-  box-shadow: 0 12px 30px -24px var(--green-deep);
 }
 .speaker-topic {
   font-size: 0.66rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.13em;
@@ -610,13 +558,13 @@ a.event:hover .event-more .arrow { transform: translateX(3px); }
 /* The Microsoft Forms embed, if its <iframe> is dropped in above the button. */
 .ms-form {
   display: block; width: 100%; max-width: 760px; height: 640px;
-  border: 1px solid var(--line); border-radius: 12px; background: var(--bg);
+  border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg);
 }
 .register-actions { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1.6rem; }
 
 /* --- Venue --- */
 .venue {
-  max-width: 760px; border: 1px solid var(--line); border-radius: 14px;
+  max-width: 760px; border: 1px solid var(--line); border-radius: var(--radius);
   background: var(--bg); padding: 1.7rem 1.8rem;
 }
 .venue-body h3 { font-size: 1.2rem; margin: 0 0 0.6rem; color: var(--ink); }
