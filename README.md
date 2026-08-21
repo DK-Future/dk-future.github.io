@@ -16,7 +16,6 @@ assets/
   main.js           Reveal animations + renders the people grids
   people.js         ← edit this to add/update team members
   favicon.svg       Site icon
-CNAME               Custom domain (dkfuture.dk) for GitHub Pages
 ```
 
 ## How to update
@@ -60,12 +59,13 @@ python3 -m http.server 8000   # then open http://localhost:8000
 
 1. Push this repo to GitHub.
 2. Settings → Pages → Build from branch → `main` / root.
-3. The `CNAME` file points the site at **dkfuture.dk**. In your domain registrar,
-   add a `CNAME`/`ALIAS` record (or the four `A` records GitHub lists) pointing at
-   GitHub Pages, then tick "Enforce HTTPS".
+3. The site serves at **https://dk-future.github.io/**, which is what the `og:url`
+   meta tags declare. To move it to a custom domain later, add a `CNAME` file with
+   the domain, point a `CNAME`/`ALIAS` record (or GitHub's four `A` records) at
+   GitHub Pages, tick "Enforce HTTPS", and update `og:url` on both pages to match.
 
 ## Coming later
 
-Publications and Events/Workshops pages. The header in `index.html` already has the
-nav links commented out — uncomment them and add `publications.html` / `events.html`
-when ready.
+Publications and Events/Workshops pages. The site has no top navigation — the front
+page is a single scroll and the workshop page links back to it — so adding
+`publications.html` / `events.html` means linking them from the front page itself.
