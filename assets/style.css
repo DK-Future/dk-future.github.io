@@ -561,6 +561,7 @@ a.event:hover .event-more .arrow { transform: translateX(3px); }
   border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg);
 }
 .register-actions { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1.6rem; }
+.register-note { margin: 1.2rem 0 0; max-width: 56ch; font-size: 0.88rem; color: var(--ink-soft); }
 
 /* --- Venue --- */
 .venue {
